@@ -1,0 +1,48 @@
+<div class="container overflow-hidden">
+  <div class="row justify-content-around mt-5">
+    <div class="col-4">
+      <img class="w-100" [src]="profile.profilePicURL" alt="">
+    </div>
+  </div>
+  <div class="text-center mt-3">
+    <h2>{{profile.firstName + ' ' + profile.lastName}}</h2>
+  </div>
+  <h3>Posts</h3>
+  <div class="row justify-content-around">
+    <div *ngFor="let stat of posts" class="col-12 col-sm-12 col-lg-4 col-md-6">
+      <mat-card class="m-3 border border-primary rounded">
+        <mat-card-header>
+          <img mat-card-avatar [src]="stat.owner.profileURL" alt="">
+          <mat-card-title class="mat-text">
+            <h5>{{stat.owner.name}}</h5>
+          </mat-card-title>
+          <span class="flex-fill"></span>
+          <mat-icon class="pointer" *ngIf="stat.owner.uid===auth.getUID()" [matMenuTriggerFor]="options">more_vert
+          </mat-icon>
+        </mat-card-header>
+        <mat-menu #options="matMenu">
+          <button mat-button *ngIf="stat.owner.uid===auth.getUID()" (click)="deletePost(stat)">
+            Delete Status
+          </button>
+        </mat-menu>
+        <img class="mt-2" mat-card-image *ngIf="stat.imageURL" [src]="stat.imageURL" alt="">
+        <mat-card-content class="p-3">
+          <h6>{{stat.content}}</h6>
+        </mat-card-content>
+        <mat-card-actions class="w-100">
+          <div class="row justify-content-around">
+            <button (click)="thumbUp(stat)" mat-button>
+              <mat-icon [matBadge]="stat.likes" matBadgeColor="primary" e class="pointer">thumb_up</mat-icon>
+            </button>
+            <button [routerLink]="['/post',stat.id]" mat-button>
+              <mat-icon [matBadge]="stat.commentsCount" matBadgeColor="primary" class="pointer">comment</mat-icon>
+            </button>
+            <button (click)="sharestat(stat)" mat-button>
+              <mat-icon class="pointer">share</mat-icon>
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

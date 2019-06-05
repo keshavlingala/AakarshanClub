@@ -1,0 +1,96 @@
+<div class="container">
+  <form #form="ngForm" (ngSubmit)="onSubmit(emailInput.value,passwordInput.value)"
+        class="text-center border border-light p-5">
+    <p class="h4 mb-4">Sign up</p>
+    <!--    Firstname and last name-->
+    <div class="row">
+      <mat-form-field class="w-100 col-sm">
+        <input required [(ngModel)]="userData.firstName" #firstName="ngModel" matInput name="firstName" type="text"
+               placeholder="First name">
+      </mat-form-field>
+      <mat-form-field class="w-100 col-sm">
+        <input required [(ngModel)]="userData.lastName" matInput type="text" #lastName="ngModel" name="lastName"
+               placeholder="Last name">
+      </mat-form-field>
+    </div>
+    <!--    Email-->
+    <mat-form-field class="w-100">
+      <input
+        #emailInput="ngModel" name="email" [(ngModel)]="userData.email" matInput type="email" placeholder="Email"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+        required>
+    </mat-form-field>
+    <!--    Password-->
+    <mat-form-field class="w-100">
+      <input #passwordInput matInput type="password" placeholder="Password"
+             required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <input #phone="ngModel"
+             [(ngModel)]="userData.phone"
+             maxlength="10"
+             pattern="^\d{10}$"
+             name="phone" matInput type="tel"
+             placeholder="Phone no">
+    </mat-form-field>
+
+    <!--    Roll No.-->
+    <mat-form-field class="w-100">
+      <input matInput
+             required #rollNo="ngModel"
+             [(ngModel)]="userData.rollNo"
+             name="rollNo" type="text"
+             style="text-transform:uppercase"
+             placeholder="Roll No">
+    </mat-form-field>
+    <div class="row">
+      <!--      Select Year-->
+      <mat-form-field class="col-sm-12 col-md-4">
+        <mat-label>Year</mat-label>
+        <mat-select required [(value)]="userData.year" class="w-100">
+          <mat-option *ngFor="let year of years" [value]="year">
+            {{year}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--      Select Branch-->
+      <mat-form-field class="col-sm-12 col-md-4">
+        <mat-label>Branch</mat-label>
+        <mat-select [(value)]="userData.branch" class="w-100">
+          <mat-option (click)="selectedClass=branch;" *ngFor="let branch of classes" [value]="branch.branch">
+            {{branch.branch}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--      Select Section-->
+      <mat-form-field class="col-sm-12 col-md-4" *ngIf="selectedClass.branch">
+        <mat-label>Section</mat-label>
+        <mat-select [(value)]="userData.section" class="w-100">
+          <mat-option *ngFor="let section of selectedClass.sections" [value]="section">
+            {{section}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <label>
+      Upload Profile Picture
+      <input type="file" (change)="fileSelected($event)">
+    </label>
+    <br>
+    <button *ngIf="!loading" mat-flat-button color="primary" class="w-100"
+            [disabled]="!isValid()||form.invalid"
+            type="submit">Sign in
+    </button>
+    <div *ngIf="loading" class="mt-3">
+      <div class="row justify-content-around">
+        <mat-spinner>
+        </mat-spinner>
+      </div>
+      <span class="small">{{status}}</span>
+    </div>
+
+    <hr>
+  </form>
+
+</div>

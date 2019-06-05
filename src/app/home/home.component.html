@@ -1,0 +1,65 @@
+<div class="container">
+  <mat-form-field *ngIf="!uploading" class="w-100 mt-3" appearance="outline">
+    <mat-label>Anything New ? 😃</mat-label>
+    <textarea
+      matInput rows="3"
+      name="content"
+      [(ngModel)]="post.content"
+      type="text"></textarea>
+    <button [disabled]="!isValid()||uploading" (click)="onUpload()" mat-flat-button color="primary">Post</button>
+    <button mat-flat-button>
+      <label class="m-0 justify-content-center" for="file">
+        <mat-icon class="pointer">image</mat-icon>
+        <input (change)="fileSelected($event.target.files[0])" id="file" type="file" class="d-none">
+      </label>
+    </button>
+    <span *ngIf="imageSelected">{{imageSelected.name}}</span>
+  </mat-form-field>
+  <!--  Loading Spinner-->
+  <div *ngIf="uploading" class="text-center justify-content-center">
+    <div class="row justify-content-center">
+      <mat-spinner mode="indeterminate"></mat-spinner>
+    </div>
+    <br>
+    <span>{{uploadStatus}}</span>
+  </div>
+  <!--  Post Cards-->
+  <div class="row justify-content-around">
+    <div *ngFor="let stat of allStatus" class="col-12 col-sm-12 col-lg-4 col-md-6">
+      <mat-card class="m-3 border border-primary rounded">
+        <mat-card-header>
+          <img [routerLink]="['/profile',stat.owner.uid]" mat-card-avatar [src]="stat.owner.profileURL" alt="">
+          <mat-card-title [routerLink]="['/profile',stat.owner.uid]" class="mat-text">
+            <h5>{{stat.owner.name}}</h5>
+          </mat-card-title>
+          <span class="flex-fill"></span>
+          <mat-icon class="pointer" *ngIf="stat.owner.uid===auth.getUID()" [matMenuTriggerFor]="options">more_vert
+          </mat-icon>
+        </mat-card-header>
+        <mat-menu #options="matMenu">
+          <button mat-button *ngIf="stat.owner.uid===auth.getUID()" (click)="deletePost(stat)">
+            Delete Status
+          </button>
+        </mat-menu>
+        <img [routerLink]="['/post',stat.id]" class="mt-2" mat-card-image *ngIf="stat.imageURL" [src]="stat.imageURL"
+             alt="">
+        <mat-card-content [routerLink]="['/post',stat.id]" class="p-3">
+          <h6>{{stat.content}}</h6>
+        </mat-card-content>
+        <mat-card-actions class="w-100">
+          <div class="row justify-content-around">
+            <button (click)="thumbUp(stat)" mat-button>
+              <mat-icon [matBadge]="stat.likes" matBadgeColor="primary" class="pointer">thumb_up</mat-icon>
+            </button>
+            <button [routerLink]="['/post',stat.id]" mat-button>
+              <mat-icon [matBadge]="stat.commentsCount" matBadgeColor="primary" class="pointer">comment</mat-icon>
+            </button>
+            <button (click)="sharestat(stat)" mat-button>
+              <mat-icon class="pointer">share</mat-icon>
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

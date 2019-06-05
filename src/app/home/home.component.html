@@ -36,6 +36,7 @@
           <mat-icon class="pointer" *ngIf="stat.owner.uid===auth.getUID()" [matMenuTriggerFor]="options">more_vert
           </mat-icon>
         </mat-card-header>
+
         <mat-menu #options="matMenu">
           <button mat-button *ngIf="stat.owner.uid===auth.getUID()" (click)="deletePost(stat)">
             Delete Status

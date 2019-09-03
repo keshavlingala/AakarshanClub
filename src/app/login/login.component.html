@@ -1,0 +1,25 @@
+<mat-progress-bar *ngIf="loading" class="m-1" mode="indeterminate" color="warn"></mat-progress-bar>
+<div class="container">
+  <div class="row">
+    <div class="justify-content-center p-3 m-3">
+      <div class="row">
+        <div class="col-sm">
+          <img class="card-img-top" src="./assets/logo.jpg" alt="">
+        </div>
+        <div class="w-100 text-center col-sm align-items-center">
+          <mat-form-field class="w-100">
+            <input type="email" #email matInput placeholder="Username" autofocus required>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input type="password" #password matInput placeholder="Password" required>
+          </mat-form-field>
+          <br>
+          <button (click)="login(email.value,password.value)" mat-flat-button
+                  color="primary">Login
+          </button>
+          <button routerLink="/register" class="mt-3 w-100" mat-flat-button color="accent">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

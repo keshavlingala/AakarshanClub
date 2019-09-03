@@ -1,0 +1,76 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$Aakarshan-v20-primary: mat-palette($mat-indigo);
+$Aakarshan-v20-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$Aakarshan-v20-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$Aakarshan-v20-theme: mat-light-theme($Aakarshan-v20-primary, $Aakarshan-v20-accent, $Aakarshan-v20-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($Aakarshan-v20-theme);
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+.pointer {
+  cursor: pointer;
+}
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$Aakarshan-primary: mat-palette($mat-orange, 500, 400, 600);
+$Aakarshan-accent: mat-palette($mat-cyan, 800, 700, 900);
+
+// The warn palette is optional (defaults to red).
+$Aakarshan-warn: mat-palette($mat-red, 500, 400, 600);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$Aakarshan-theme: mat-light-theme($Aakarshan-primary, $Aakarshan-accent, $Aakarshan-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($Aakarshan-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+//span {
+//  word-wrap: break-word;      /* IE 5.5-7 */
+//  white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+//  white-space: pre-wrap;      /* current browsers */
+//}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

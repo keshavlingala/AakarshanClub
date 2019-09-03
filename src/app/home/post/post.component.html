@@ -1,0 +1,37 @@
+<mat-card class="m-2 shadow rounded ">
+  <mat-card-header>
+    <img [routerLink]="['/profile',post.owner.uid]" mat-card-avatar [src]="post.owner.photoURL" alt="">
+    <mat-card-title [routerLink]="['/profile',post.owner.uid]" class="mat-primary">
+      <h5>{{post.owner.displayName}}</h5>
+    </mat-card-title>
+    <span class="flex-fill"></span>
+    <mat-icon class="pointer" *ngIf="pService.isPostOwner(post)" [matMenuTriggerFor]="options">
+      more_vert
+    </mat-icon>
+    <!--    <button mat-button (click)="log()">Log</button>-->
+  </mat-card-header>
+
+  <mat-menu #options="matMenu">
+    <button mat-button *ngIf="pService.isPostOwner(post)" (click)="pService.deletePost(post)">
+      Delete Status
+    </button>
+  </mat-menu>
+  <img [routerLink]="['/post',post.pid]" class="mt-2" mat-card-image *ngIf="post.imageURL" [src]="post.imageURL"
+       alt="">
+  <mat-card-content [routerLink]="['/post',post.pid]" class="p-3">
+    <h6>{{post.content}}</h6>
+  </mat-card-content>
+  <mat-card-actions class="w-100">
+    <div class="row justify-content-around">
+      <button (click)="pService.thumbUp(post)" mat-button>
+        <mat-icon [matBadge]="post.likes.toString()" matBadgeColor="accent" class="pointer">thumb_up</mat-icon>
+      </button>
+      <button (click)="commentMe(post)" mat-button>
+        <mat-icon [matBadge]="post.commentsCount?.toString()" matBadgeColor="accent" class="pointer">comment</mat-icon>
+      </button>
+      <button (click)="pService.sharePost(post)" mat-button>
+        <mat-icon class="pointer">share</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

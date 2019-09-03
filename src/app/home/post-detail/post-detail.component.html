@@ -1,0 +1,36 @@
+<div class="row mb-3">
+  Post by {{post.owner.displayName}}
+  <span class="flex-fill"></span>
+  <mat-icon matTooltip="Close" class="pointer" (click)="closeDialog()">close</mat-icon>
+</div>
+<mat-card>
+  <mat-card-footer>
+    <div>
+      <!--        Comments List-->
+      <mat-list>
+        <h3 mat-subheader> {{post.commentsCount}} Comments</h3>
+        <div class="row justify-content-center mt-3">
+          <mat-spinner diameter="50" *ngIf="loading" mode="indeterminate"></mat-spinner>
+        </div>
+        <mat-list-item *ngFor="let c of comments">
+          <img [routerLink]="['/profile',c.owner.uid]" (click)="dialogRef.close()"   mat-list-icon [src]="c.owner.photoURL" alt="">
+          <h5 mat-line>{{c.comment}}</h5>
+          <p [routerLink]="['/profile',c.owner.uid]" (click)="dialogRef.close()"  class="text-info small" mat-line>{{c.owner.displayName}}</p>
+          <span class="flex-fill"></span>
+          <mat-icon [matMenuTriggerFor]="comntDelete" *ngIf="c.owner.uid==auth.getUid">more_vert</mat-icon>
+          <mat-menu #comntDelete="matMenu">
+            <button (click)="pService.deleteComment(post,c)" mat-menu-item>
+              Delete Comment
+            </button>
+          </mat-menu>
+        </mat-list-item>
+      </mat-list>
+      <!--Comment Field-->
+      <mat-form-field class="w-100 p-2" appearance="outline">
+        <mat-label>Comment..</mat-label>
+        <input #commentelement (keyup.enter)="pService.postComment(commentelement,post)" matInput type="text">
+        <mat-icon (click)="pService.postComment(commentelement,post)" class="pointer" matSuffix>send</mat-icon>
+      </mat-form-field>
+    </div>
+  </mat-card-footer>
+</mat-card>

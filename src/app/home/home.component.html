@@ -21,10 +21,10 @@
     </mat-expansion-panel>
   </div>
 </ng-template>
-<div class="container">
+<div  class="container">
   <!--  TODO  Redesign the upload post template-->
-  <div class="container">
-    <mat-card (click)="openDialogBox()" class="rounded m-4 pointer">
+  <div *ngIf="_auth.isLoggedIn else spinner" class="container">
+    <mat-card (click)="openDialogBox()" class="rounded m-4 pointer ">
       Anything New ? 😃
       Post it Here.....
     </mat-card>

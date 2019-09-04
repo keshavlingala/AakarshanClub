@@ -1,1 +1,26 @@
-<p>upload-post works!</p>
+<h1 mat-dialog-title>Upload New Post</h1>
+<mat-card mat-dialog-content>
+  <mat-card-header class="mb-3">
+    <img mat-card-avatar [src]="authService.getOwner.photoURL" alt="">
+    <mat-card-title *ngIf="authService.getOwner.displayName else wrong">
+      {{authService.getOwner.displayName}}
+    </mat-card-title>
+  </mat-card-header>
+  <img (click)="fileInput.click()" mat-card-image [src]="previewImage()" alt="Post Image">
+  <input #fileInput (change)="fileSelected($event)" type="file" style="display: none">
+  <mat-card-content class="w-100">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Write about Your Art</mat-label>
+      <textarea [(ngModel)]="post.content" rows="4" matInput></textarea>
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Image Maximum size limit is 5 MB</mat-hint>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
+<div mat-dialog-actions>
+  <button color="primary" (click)="BugMe()" mat-flat-button>Log</button>
+  <button color="primary" (click)="upload()" mat-button mat-flat-button>Submit</button>
+</div>
+<ng-template #wrong>
+  <p class="alert-warning">Something went Wrong</p>
+</ng-template>

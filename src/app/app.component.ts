@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from './auth/auth.service';
 import {HttpClient} from '@angular/common/http';
 
-declare var particlesJS: any;
 
 @Component({
   selector: 'app-root',
@@ -19,9 +18,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    particlesJS.load('particles-js', 'assets/particlesjs-config.json', () => {
-      console.log('callback - particles.js config loaded');
-    });
   }
 
   get auth(): AuthService {

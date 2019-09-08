@@ -1,7 +1,8 @@
-export class Post {
+export interface Post {
   pid?: string;
   content: string;
   imageURL?: string;
+  fullSize?: string;
   owner: Owner;
   likes: number;
   commentsCount?: number;

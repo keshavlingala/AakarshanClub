@@ -13,16 +13,16 @@ export class CompressorService {
     const width = 600; // For scaling relative to width
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    return Observable.create(observer => {
+    return new Observable(observer => {
       reader.onload = ev => {
         const img = new Image();
         img.src = (ev.target as any).result;
         (img.onload = () => {
-          const elem = document.createElement('canvas'); // Use Angular's Renderer2 method
+          const elem = document.createElement('canvas');
           const scaleFactor = width / img.width;
           elem.width = width;
           elem.height = img.height * scaleFactor;
-          const ctx = <CanvasRenderingContext2D> elem.getContext('2d');
+          const ctx = elem.getContext('2d') as CanvasRenderingContext2D;
           ctx.drawImage(img, 0, 0, width, img.height * scaleFactor);
           ctx.canvas.toBlob(
             blob => {

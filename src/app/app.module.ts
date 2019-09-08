@@ -8,7 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatBadgeModule, MatBottomSheetModule,
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatCheckboxModule,
   MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
@@ -50,6 +50,7 @@ import {ShareComponent} from './share/share.component';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
 import {CompressorService} from './Advanced/compressor.service';
 import {UploadPostComponent} from './upload-post/upload-post.component';
+// import {IonicModule} from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -75,10 +76,12 @@ import {UploadPostComponent} from './upload-post/upload-post.component';
     MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
+    MatRadioModule,
     MatFormFieldModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
+    MatCheckboxModule,
     MatListModule,
     MatMenuModule,
     MatNativeDateModule,
@@ -96,11 +99,14 @@ import {UploadPostComponent} from './upload-post/upload-post.component';
     AngularFireModule.initializeApp(environment.firebase),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     AngularFireAuthModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence({
+      synchronizeTabs: true
+    }),
     AngularFireStorageModule,
     AngularFireMessagingModule,
     FormsModule,
     BrowserAnimationsModule,
+    // IonicModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   entryComponents: [

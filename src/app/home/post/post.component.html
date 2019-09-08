@@ -16,8 +16,15 @@
       Delete Status
     </button>
   </mat-menu>
-  <img [routerLink]="['/post',post.pid]" class="mt-2" mat-card-image *ngIf="post.imageURL" [src]="post.imageURL"
+  <img [routerLink]="['/post',post.pid]" class="mt-2" mat-card-image
+       *ngIf="post.imageURL"
+       [src]="post.imageURL"
        alt="">
+<!--  <div class="w-100" *ngIf="false">-->
+<!--    <ion-thumbnail class="ion-no-margin">-->
+<!--      <ion-skeleton-text animated class="w-100"></ion-skeleton-text>-->
+<!--    </ion-thumbnail>-->
+<!--  </div>-->
   <mat-card-content [routerLink]="['/post',post.pid]" class="p-3">
     <h6>{{post.content}}</h6>
   </mat-card-content>

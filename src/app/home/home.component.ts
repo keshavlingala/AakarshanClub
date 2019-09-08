@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
     // const posts = JSON.parse(localStorage.getItem('posts')) as Post[];
     // this.showing = posts.length;
     const loadApi: Observable<Post[]> = this.afs
-      .collection('posts')
+      .collection('Posts')
       .snapshotChanges()
       .pipe(
         map((actions: DocumentChangeAction<Post>[]) => {
@@ -158,7 +158,7 @@ export class HomeComponent implements OnInit {
       console.log(e);
     }
     try {
-      this.afs.collection('posts').add(this.post).then(value => {
+      this.afs.collection('Posts').add(this.post).then(value => {
         console.log(value);
         console.log('Post uploaded');
         this.uploading = false;
@@ -188,7 +188,4 @@ export class HomeComponent implements OnInit {
     this.matD.open(UploadPostComponent);
   }
 
-  blur(input: HTMLTextAreaElement) {
-    input.blur();
-  }
 }

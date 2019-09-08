@@ -2,9 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {Post} from '../home/post.model';
 import {Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material';
+import {MatDialogRef, MatSnackBar} from '@angular/material';
 import {ToastrService} from 'ngx-toastr';
 import {CompressorService} from '../Advanced/compressor.service';
+import {PostService} from '../home/post.service';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {delay} from 'rxjs/operators';
 
 @Component({
   selector: 'app-upload-post',
@@ -14,24 +18,36 @@ import {CompressorService} from '../Advanced/compressor.service';
 export class UploadPostComponent implements OnInit {
 
   constructor(
+    public dialogRef: MatDialogRef<UploadPostComponent>,
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private toast: ToastrService,
-    private compressor: CompressorService
+    private afs: AngularFirestore,
+    private compressor: CompressorService,
+    private postService: PostService,
+    private storage: AngularFireStorage,
   ) {
+    this.post = {
+      owner: authService.getOwner,
+      imageURL: '',
+      likes: 0,
+      content: '',
+      fullSize: null
+    };
   }
 
-  imageUrl;
+  original = false;
+  status = 'Status';
+  loading = false;
+  previewImage;
   post: Post;
   originalImage: File;
-
+  compressedImage: File;
 
   ngOnInit() {
-
-    this.post = new Post();
     console.log(this.post);
-    this.imageUrl = 'assets/upload_place.png';
+    // this.previewImage = 'assets/upload.svg';
     if (!this.authService.isLoggedIn) {
       this.router.navigate(['/login']);
       return;
@@ -44,7 +60,6 @@ export class UploadPostComponent implements OnInit {
       this.authService.signout().then(() => {
         this.router.navigate(['/login']);
       });
-
     }
   }
 
@@ -56,41 +71,79 @@ export class UploadPostComponent implements OnInit {
         if (file.size <= 5000000) {
           this.originalImage = file;
           this.post.imageURL = '';
-
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            this.previewImage = reader.result;
+          };
           this.compressor.compress(file).subscribe(compressedImg => {
-            console.log(compressedImg);
-            console.log('File Compressed', compressedImg);
-            const reader = new FileReader();
-            reader.readAsDataURL(compressedImg);
-            reader.onload = (ref) => {
-              console.log('ref', ref);
-              // console.log(reader.result);
-              this.imageUrl = reader.result;
-            };
+            this.compressedImage = compressedImg;
           });
-
         } else {
           this.toast.error('File should be Less than 5 MB');
         }
       } else {
         this.toast.error('File should be an image Type');
       }
+    } else {
+      this.originalImage = null;
+      this.compressedImage = null;
+      this.previewImage = null;
     }
   }
+
 
   BugMe() {
     console.log(this.post);
+    console.log(this.original ? 'True' : 'False');
+    console.log(this.originalImage);
+    console.log(this.compressedImage);
   }
 
-  upload() {
-
+  everythingIsCool() {
+    return true;
   }
 
-  previewImage() {
-    if (!this.originalImage) {
-      return this.imageUrl;
-    } else {
-      return this.imageUrl;
+  async onUpload() {
+    if (this.everythingIsCool()) {
+      this.loading = true;
+      this.status = 'Generating Thumbnail';
+      const compressTask = await this.storage.upload('/Posts/' + '@thumb' + this.post.content +
+        this.authService.getOwner.displayName + (new Date()).getTime(), this.compressedImage);
+      if (this.original) {
+        this.status = 'Uploading High Quality Image';
+        const fullTask = await this.storage.upload('/Posts/' + '@original' + this.post.content +
+          this.authService.getOwner.displayName + (new Date()).getTime(), this.originalImage);
+        this.status = 'Generating URLs';
+        this.post.fullSize = await fullTask.ref.getDownloadURL();
+      }
+      this.post.imageURL = await compressTask.ref.getDownloadURL();
+      this.status = 'Adding Post to DataBase';
+      const docRef = await this.afs.collection('Posts').add(this.post);
+      this.status = 'Upading Meta Data';
+      await docRef.update({
+        pid: docRef.id,
+        timeStamp: new Date(),
+        fileMetaData: {
+          size: this.originalImage.size,
+          compressedSize: this.compressedImage.size,
+          fileName: this.originalImage.name,
+          fileType: this.originalImage.type,
+          lastModified: this.originalImage.lastModified
+        }
+      });
+      this.loading = false;
+      this.previewImage = '/assets/success.gif';
+      await delay(4000);
+      this.dialogRef.close();
+
+      // this.postService.uploadPost(this.compressedImage, this.originalImage, this.post);
+      // if (false) {
+      //   alert('Post Uploading Failed check the console\ ' +
+      //     'window for more information,' +
+      //     ' Please Report the problem in Reports Section that would be Great Help \n Thanks');
+      // }
     }
   }
+
 }

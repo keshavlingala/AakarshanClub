@@ -6,10 +6,10 @@
   <mat-card>
     <mat-card-content>
       <div class="row">
-        <div *ngIf="p.imageURL" class="col-sm-12 col-lg-6 col-md-6 col-xl-6">
-          <img class="w-100" [src]="p.imageURL" alt="">
+        <div *ngIf="p.imageURL" class="col-sm-12 col-lg-6 col-md-12 col-xl-6">
+          <img class="w-100" [src]="p.fullSize?p.fullSize:p.imageURL" alt="">
         </div>
-        <div class="col-sm-12 col-lg-6 col-md-6 col-xl-6 mt-3">
+        <div class="col-sm-12 col-lg-6 col-md-12 col-xl-6 mt-3">
           <mat-card-header>
             <img class="pointer" [routerLink]="['/profile',p.owner.uid]"
                  mat-card-avatar src="{{p.owner.photoURL}}"
@@ -48,7 +48,7 @@
         <mat-list>
           <h3 mat-subheader> {{p.commentsCount}} Comments</h3>
           <mat-list-item *ngFor="let c of comments">
-            <img [routerLink]="['/profile',c.owner.uid]"  mat-list-icon [src]="c.owner.photoURL" alt="">
+            <img [routerLink]="['/profile',c.owner.uid]" mat-list-icon [src]="c.owner.photoURL" alt="">
             <h5 mat-line>{{c.comment}}</h5>
             <p [routerLink]="['/profile',c.owner.uid]" class="text-info small" mat-line>{{c.owner.displayName}}</p>
             <span class="flex-fill"></span>

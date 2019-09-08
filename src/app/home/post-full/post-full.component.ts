@@ -29,7 +29,7 @@ export class PostFullComponent implements OnInit {
 
   async ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    this.afs.collection('posts').doc<Post>(this.id).valueChanges().subscribe(post => {
+    this.afs.collection('Posts').doc<Post>(this.id).valueChanges().subscribe(post => {
       this.post = post;
       this.post.pid = this.id;
     });

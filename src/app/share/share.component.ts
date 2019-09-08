@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MAT_DIALOG_DATA, MatBottomSheetRef, MatSnackBar} from '@angular/material';
 import {Post} from '../home/post.model';
 
+
 @Component({
   selector: 'app-share',
   templateUrl: './share.component.html',

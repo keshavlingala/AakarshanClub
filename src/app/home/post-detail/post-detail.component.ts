@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {Comment, Post} from '../post.model';
 import {PostService} from '../post.service';
 import {ActivatedRoute} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AuthService} from '../../auth/auth.service';
+import {Post, Comment} from '../post.model';
 
 @Component({
   selector: 'app-post-detail',

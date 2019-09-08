@@ -5,7 +5,7 @@ import {AuthService} from '../auth/auth.service';
 import {PostDetailComponent} from './post-detail/post-detail.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {PopLoginComponent} from '../pop-login/pop-login.component';
-import {zip} from 'rxjs';
+import {merge, Observable, zip} from 'rxjs';
 import {firestore} from 'firebase/app';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ShareComponent} from '../share/share.component';
@@ -39,7 +39,7 @@ export class PostService {
           doc.ref.delete().then(() => console.log('Comment Deleted'));
         });
       });
-      this.afs.collection('posts').doc(post.pid).delete().then(() => {
+      this.afs.collection('Posts').doc(post.pid).delete().then(() => {
         console.log('Post Deleted');
         this.snack.open('Post Deleted', '', {
           duration: 2000
@@ -51,7 +51,7 @@ export class PostService {
 
   thumbUp(post: Post) {
 
-    this.afs.collection('posts').doc(post.pid).update({
+    this.afs.collection('Posts').doc(post.pid).update({
       likes: firestore.FieldValue.increment(1)
     });
     this.snack.open('Post Liked', '', {
@@ -94,7 +94,7 @@ export class PostService {
         owner,
         pid: post.pid
       }).then(() => {
-        console.log('comment successfull');
+        console.log('comment successful');
         commentelement.value = '';
       });
     } else {
@@ -105,4 +105,6 @@ export class PostService {
       });
     }
   }
+
+
 }

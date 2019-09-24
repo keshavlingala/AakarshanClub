@@ -1,0 +1,20 @@
+{
+  "projects": {
+    "default": "aakarshankmit"
+  },
+  "targets": {
+    "aakarshankmit": {
+      "hosting": {
+        "aakarshankmit": [
+          "aakarshankmit"
+        ],
+        "aakarshan": [
+          "aakarshan"
+        ],
+        "artclub": [
+          "artclub"
+        ]
+      }
+    }
+  }
+}

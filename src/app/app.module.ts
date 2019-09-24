@@ -50,7 +50,10 @@ import {ShareComponent} from './share/share.component';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
 import {CompressorService} from './Advanced/compressor.service';
 import {UploadPostComponent} from './upload-post/upload-post.component';
-// import {IonicModule} from '@ionic/angular';
+import {NguiComponent} from './ngui/ngui.component';
+import {MessagingService} from './messaging.service';
+import { SettingsComponent } from './settings/settings.component';
+
 
 @NgModule({
   declarations: [
@@ -64,7 +67,9 @@ import {UploadPostComponent} from './upload-post/upload-post.component';
     PopLoginComponent,
     ProfileComponent,
     ShareComponent,
-    UploadPostComponent
+    UploadPostComponent,
+    NguiComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +101,7 @@ import {UploadPostComponent} from './upload-post/upload-post.component';
     HttpClientModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatTabsModule,
     AngularFireModule.initializeApp(environment.firebase),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     AngularFireAuthModule,
@@ -119,7 +125,8 @@ import {UploadPostComponent} from './upload-post/upload-post.component';
     AuthService,
     PostService,
     ToastrService,
-    CompressorService
+    CompressorService,
+    MessagingService
   ],
   bootstrap: [AppComponent]
 })

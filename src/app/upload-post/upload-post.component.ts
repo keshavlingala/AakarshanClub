@@ -109,11 +109,15 @@ export class UploadPostComponent implements OnInit {
       this.loading = true;
       this.status = 'Generating Thumbnail';
       const compressTask = await this.storage.upload('/Posts/' + '@thumb' + this.post.content +
-        this.authService.getOwner.displayName + (new Date()).getTime(), this.compressedImage);
+        this.authService.getOwner.displayName + (new Date()).getTime(), this.compressedImage, {
+        contentType: this.originalImage.type
+      });
       if (this.original) {
         this.status = 'Uploading High Quality Image';
         const fullTask = await this.storage.upload('/Posts/' + '@original' + this.post.content +
-          this.authService.getOwner.displayName + (new Date()).getTime(), this.originalImage);
+          this.authService.getOwner.displayName + (new Date()).getTime(), this.originalImage, {
+          contentType: this.originalImage.type
+        });
         this.status = 'Generating URLs';
         this.post.fullSize = await fullTask.ref.getDownloadURL();
       }

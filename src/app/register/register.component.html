@@ -12,9 +12,9 @@
     <!--    Email-->
     <mat-form-field color="accent" class="w-100">
       <input
-        #emailInput="ngModel" name="email" [(ngModel)]="userData.email" matInput type="email" placeholder="Email"
-        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-        required>
+          #emailInput="ngModel" name="email" [(ngModel)]="userData.email" matInput type="email" placeholder="Email"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          required>
     </mat-form-field>
     <!--    Password-->
     <mat-form-field color="accent" class="w-100">
@@ -69,14 +69,39 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <div class="row mt-3 mb-3">
+      <div class="col-12">
+        <mat-checkbox [(ngModel)]="userData.isArtist">
+          I'm an Artist (this lets others send you email for custom Paints) <span class="text-primary"
+                                                                                  (click)="privacy()">Privacy Policy</span>
+        </mat-checkbox>
+      </div>
+    </div>
     <button class="mb-3" color="accent" mat-stroked-button>
       <label for="pp">
         Select Profile Picture
         <input class="d-none" id="pp" type="file" (change)="fileSelected($event)">
       </label>
     </button>
-    <span class="ml-2" *ngIf="selectedFile">{{selectedFile.name}}</span>
+    <h6>(or)</h6>
+    <h5>Choose Profile Card</h5>
+    <mat-card *ngIf="selected">
+      <mat-card-header>
+        <img mat-card-avatar [src]="userData.photoURL" alt="">
+        <img src="" alt="">
+        <mat-card-title>{{userData.displayName}}</mat-card-title>
+        <mat-card-subtitle>{{userData.postCount}} posts</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
     <br>
+
+    <div class="row mb-2">
+      <div *ngFor="let face of faces;let i = index"
+           [style.background]="selected.id==i?'white':'#dee2e6'"
+           (click)="faceSelected(face)" class="face">
+        <img [src]="face.img" alt="">
+      </div>
+    </div>
     <button *ngIf="!loading" mat-flat-button color="accent" class="w-100"
             [disabled]="!isValid()||form.invalid"
             (click)="onSubmit(emailInput.value,passwordInput.value)">Sign in

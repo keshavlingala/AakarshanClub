@@ -31,9 +31,6 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private route: Router
   ) {
-    if (authService.isLoggedIn) {
-      this.route.navigate(['/']);
-    }
     authService.authState.subscribe(change => {
       if (authService.isLoggedIn) {
         this.route.navigate(['/']);
@@ -41,16 +38,29 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  private _userData: User;
-
-  get userData(): User {
-    return this._userData;
-  }
+  public userData: User;
+  faces = [
+    {id: 0, img: 'assets/faces/faces-06.svg'},
+    {id: 1, img: 'assets/faces/faces-01.svg'},
+    {id: 2, img: 'assets/faces/faces-02.svg'},
+    {id: 3, img: 'assets/faces/faces-03.svg'},
+    {id: 4, img: 'assets/faces/faces-04.svg'},
+    {id: 5, img: 'assets/faces/faces-05.svg'},
+  ];
+  selected = this.faces[0];
 
 
   ngOnInit() {
-    this._userData = {
-      branch: null, email: null, phone: null, rollNo: null, section: null, year: null,
+    this.userData = {
+      branch: null,
+      email: null,
+      phone: null,
+      rollNo: '',
+      isArtist: false,
+      section: null,
+      year: null,
+      photoURL: this.faces[0].img,
+      postCount: 0,
       displayName: null
     };
     this.selectedClass = {branch: null, sections: null};
@@ -70,7 +80,7 @@ export class RegisterComponent implements OnInit {
 
 
         const upload = await this.AfStorage
-          .ref('profiles/' + this._userData.displayName + this._userData.rollNo + (new Date()).getTime())
+          .ref('profiles/' + this.userData.displayName + this.userData.rollNo + (new Date()).getTime())
           .put(this.selectedFile);
 
 
@@ -83,25 +93,23 @@ export class RegisterComponent implements OnInit {
 
         console.log('Download URL Fetched');
         this.status = 'Profile Reference Fetched';
-        this._userData.photoURL = url;
+        this.userData.photoURL = url;
       } else {  // using placeholder
-        this._userData.photoURL = 'https://firebasestorage.googleapis.com/v0/b/aakarshankmit.appspot.com' +
-          '/o/profiles%2Fman-user-svgrepo-com.svg?alt=media&token=36e560d1-6b4f-4b21-b7ad-1ec6cdcbb83a';
-        this.status = 'No File Found, Using PlaceHolder Instead';
+        // this.userData.photoURL = 'https://firebasestorage.googleapis.com/v0/b/aakarshankmit.appspot.com' +
+        //   '/o/profiles%2Fman-user-svgrepo-com.svg?alt=media&token=36e560d1-6b4f-4b21-b7ad-1ec6cdcbb83a';
+        this.status = 'Using Profile Cards';
       }
       console.log('Uploading UserInfo to Database');
       this.status = 'Adding user to Database...';
-      console.log(this._userData);
+      console.log(this.userData);
       this.userData.pass = pass;
       this.userData.uid = credentials.user.uid;
-      await this.db.collection('users').doc(credentials.user.uid).set(this._userData);
+      await this.db.collection('Users').doc(credentials.user.uid).set(this.userData);
 
-      console.log('Database Updated Successfully');
-      this.status = 'Registration Successfully';
-      await setTimeout(null, 500);
       this.loading = false;
       // this.route.navigate(['/login']);
     } catch (e) {
+      await this.db.collection('Errors').add(e);
       alert(e);
       this.loading = false;
     }
@@ -109,7 +117,7 @@ export class RegisterComponent implements OnInit {
   }
 
   isValid() {
-    return (this._userData.year !== null && this._userData.section !== null && this._userData.branch !== null);
+    return (this.userData.year !== null && this.userData.section !== null && this.userData.branch !== null);
   }
 
   fileSelected(event) {
@@ -118,6 +126,11 @@ export class RegisterComponent implements OnInit {
       if (file.type.includes('image')) {
         if (file.size <= 5000000) {
           this.selectedFile = file;
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            this.userData.photoURL = reader.result as string;
+          };
         } else {
           event.target.value = null;
           alert('Image should be Less than 5 MB');
@@ -130,5 +143,15 @@ export class RegisterComponent implements OnInit {
       event.target.value = null;
       alert('File Not Found');
     }
+  }
+
+  faceSelected(face: { img: string; id: number }) {
+    this.userData.photoURL = face.img;
+    this.selected = face;
+    this.selectedFile = null;
+  }
+
+  privacy() {
+    alert('Your Email Address will be available for public');
   }
 }

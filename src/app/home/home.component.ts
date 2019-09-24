@@ -48,20 +48,8 @@ export class HomeComponent implements OnInit {
     // const posts = JSON.parse(localStorage.getItem('posts')) as Post[];
     // this.showing = posts.length;
     const loadApi: Observable<Post[]> = this.afs
-      .collection('Posts')
-      .snapshotChanges()
-      .pipe(
-        map((actions: DocumentChangeAction<Post>[]) => {
-          return actions.map((a: DocumentChangeAction<Post>) => {
-            const data = a.payload.doc.data() as Post;
-            const pid = a.payload.doc.id;
-            return {
-              pid,
-              ...data
-            };
-          });
-        }),
-      );
+      .collection<Post>('Posts')
+      .valueChanges();
 
 // TODO : Limit posts and lazy load images
 //    Also Change Add commentsCount inn AAll posts documents

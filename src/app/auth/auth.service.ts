@@ -31,12 +31,12 @@ export class AuthService {
       switchMap(user => {
           if (user) {
             localStorage.setItem('_uid', user.uid);
-            this.afs.doc<User>(`users/${user.uid}`).get().subscribe(userData => {
+            this.afs.doc<User>(`Users/${user.uid}`).get().subscribe(userData => {
               const data = userData.data() as User;
               delete data.pass;
               localStorage.setItem('user', JSON.stringify(data));
             });
-            return this.afs.doc(`users/${user.uid}`).valueChanges();
+            return this.afs.doc(`Users/${user.uid}`).valueChanges();
           } else {
             localStorage.removeItem('_uid');
             return of(null);
@@ -45,7 +45,7 @@ export class AuthService {
       ));
     afAuth.auth.onAuthStateChanged(user => {
       if (user) {
-        this.user$ = afs.doc<User>(`users/${user.uid}`).valueChanges();
+        this.user$ = afs.doc<User>(`Users/${user.uid}`).valueChanges();
         this.user$.subscribe(local => {
           localStorage.setItem('user', JSON.stringify(local));
           localStorage.setItem('_uid', local.uid);

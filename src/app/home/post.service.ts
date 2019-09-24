@@ -34,11 +34,15 @@ export class PostService {
   deletePost(post: Post) {
     if (confirm('Are you Sure?, You Want to Delete this Post')) {
       this.storage.storage.refFromURL(post.imageURL).delete().then(value => console.log('Image Deleted'));
-      this.afs.collection<Comment>('Comments', ref => ref.where('pid', '==', post.pid)).get().subscribe(docs => {
-        docs.forEach(doc => {
-          doc.ref.delete().then(() => console.log('Comment Deleted'));
-        });
-      });
+      if (post.fullSize) {
+        this.storage.storage.refFromURL(post.fullSize).delete().catch(console.log).then(console.log);
+      }
+      console.log('Deleting', post);
+      // this.afs.collection<Comment>('Comments', ref => ref.where('pid', '==', post.pid)).get().subscribe(docs => {
+      //   docs.forEach(doc => {
+      //     doc.ref.delete().then(() => console.log('Comment Deleted'));
+      //   });
+      // });
       this.afs.collection('Posts').doc(post.pid).delete().then(() => {
         console.log('Post Deleted');
         this.snack.open('Post Deleted', '', {
@@ -83,7 +87,7 @@ export class PostService {
     }
     const user = this.auth.getUser();
     // console.log(user);
-    if (user !== null) {
+    if (user !== null && Object.values(user).every(v => v !== null)) {
       const owner = {
         displayName: user.displayName,
         photoURL: user.photoURL,

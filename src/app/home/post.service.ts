@@ -27,7 +27,11 @@ export class PostService {
 
   isPostOwner(post: Post) {
     // console.log(post);
-    return (post.owner.uid === this.auth.getUid || post.owner.email === this.auth.getOwner.email);
+    if (this.auth.isLoggedIn && post.owner.email == this.auth.getOwner.email) {
+      return true;
+    } else {
+      return false;
+    }
     // return true;
   }
 

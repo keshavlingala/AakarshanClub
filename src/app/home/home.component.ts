@@ -10,6 +10,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {MatDialog, MatFormField} from '@angular/material';
 import {UploadPostComponent} from '../upload-post/upload-post.component';
+import {User} from '../interfaces/user.model';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,8 @@ export class HomeComponent implements OnInit {
   imageSelected: File;
   loading: boolean;
   showing = 1;
+  $artists: Observable<User[]>;
+  artists: User[];
 
   constructor(
     private _auth: AuthService,
@@ -60,7 +63,10 @@ export class HomeComponent implements OnInit {
       this.loading = false;
       console.log(this.arts);
     });
-
+    this.$artists = this.afs.collection<User>('Users').valueChanges();
+    this.$artists.subscribe(artists => {
+      this.artists = artists;
+    });
     // if (posts && posts.length > 0) {
     //   this.myPosts = of(posts);
     //   this.arts = posts;

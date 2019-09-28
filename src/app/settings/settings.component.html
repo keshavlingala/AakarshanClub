@@ -1,10 +1,31 @@
 <div class="container">
-  <mat-selection-list>
-    <mat-list-option (click)="msg.requestPermission(auth.getUid)">
-      <mat-icon mat-list-icon>notifications</mat-icon>
-      <h4 mat-line>Notifications</h4>
-      <p mat-line> Let us send you notifications about new post Updates </p>
-    </mat-list-option>
-  </mat-selection-list>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Enable Notifications
+        </mat-panel-title>
+        <mat-panel-description>
+          Let us send you notifications about new post Updates
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle (change)="checked($event)" [checked]="notifications">
+        Enable
+      </mat-slide-toggle>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Account Settings
+        </mat-panel-title>
+        <mat-panel-description>
+          Manage or Delete your Account
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle [checked]="stayPosts">
+        Let Your Posts Stay
+      </mat-slide-toggle>
+      <button (click)="deleteAccount()" mat-button color="warn">Delete My Account</button>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
-

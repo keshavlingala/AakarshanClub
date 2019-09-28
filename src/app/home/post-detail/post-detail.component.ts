@@ -20,7 +20,7 @@ export class PostDetailComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Post,
     private _pService: PostService,
     private actRout: ActivatedRoute,
-    private auth: AuthService,
+    private _auth: AuthService,
     private afs: AngularFirestore,
   ) {
     if (this.data) {
@@ -30,6 +30,10 @@ export class PostDetailComponent implements OnInit {
     }
   }
 
+
+  get auth(): AuthService {
+    return this._auth;
+  }
 
   get pService(): PostService {
     return this._pService;

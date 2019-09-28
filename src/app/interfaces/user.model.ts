@@ -4,7 +4,6 @@ export interface User {
   displayName?: string;
   pass?: string;
   postCount: number;
-  isArtist: boolean;
   email: string;
   rollNo?: string;
   year?: number;

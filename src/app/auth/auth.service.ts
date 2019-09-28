@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {User} from './user.model';
+import {User} from '../interfaces/user.model';
 import {Observable} from 'rxjs';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
@@ -11,6 +11,7 @@ import {loggedIn} from '@angular/fire/auth-guard';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {LoginComponent} from '../login/login.component';
 import {Owner} from '../home/post.model';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
+    private storage: AngularFireStorage,
     private router: Router,
     private  snackbar: MatSnackBar
   ) {
@@ -62,8 +64,16 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user !== null;
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
   }
 
   get getUid() {
@@ -96,7 +106,8 @@ export class AuthService {
         return {
           displayName: owner.displayName,
           photoURL: owner.photoURL,
-          uid: owner.uid
+          uid: owner.uid,
+          email: owner.email
         };
       } else {
         this.snackbar.open('Login to upload new post', 'Dismiss', {
@@ -150,4 +161,11 @@ export class AuthService {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
   }
 
+  async deleteAccount() {
+    const currentUser = this.getUser();
+    await this.afs.collection('Users').doc(currentUser.uid).delete();
+    await this.afAuth.auth.currentUser.delete();
+    await this.router.navigate(['']);
+    console.log('User Deleted');
+  }
 }

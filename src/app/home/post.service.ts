@@ -27,7 +27,7 @@ export class PostService {
 
   isPostOwner(post: Post) {
     // console.log(post);
-    return post.owner.uid === this.auth.getUid;
+    return (post.owner.uid === this.auth.getUid || post.owner.email === this.auth.getOwner.email);
     // return true;
   }
 
@@ -89,9 +89,10 @@ export class PostService {
     // console.log(user);
     if (user !== null && Object.values(user).every(v => v !== null)) {
       const owner = {
+        email: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL,
-        uid: user.uid
+        uid: user.uid,
       };
       this.afs.collection<Comment>('Comments').add({
         comment: commentelement.value,

@@ -1,6 +1,6 @@
-<mat-tab-group>
+<mat-tab-group backgroundColor="primary" mat-stretch-tabs>
   <mat-tab label="Posts">
-    <ng-template #spinner>
+    <ng-template #login>
       <div class="row justify-content-center w-100 mt-3 mb-3">
         <mat-spinner color="accent" *ngIf="uploading" diameter="50">
         </mat-spinner>
@@ -24,70 +24,33 @@
       </div>
     </ng-template>
     <div class="container">
-      <!--  TODO  Redesign the upload post template-->
-      <div *ngIf="_auth.isLoggedIn else spinner" class="container">
+      <div *ngIf="auth.isLoggedIn else login" class="container">
         <mat-card (click)="openDialogBox()" class="rounded m-4 pointer ">
           Anything New ? 😃
           Post it Here.....
         </mat-card>
       </div>
-      <!--  <div *ngIf="!uploading && auth.isLoggedIn; else spinner" (click)="openDialogBox()">-->
-      <!--    <mat-form-field color="accent"-->
-      <!--                    *ngIf="!uploading && auth.isLoggedIn; else spinner"-->
-      <!--                    class="w-100 mt-3"-->
-      <!--                    appearance="outline">-->
-      <!--      <mat-label>Anything New ? 😃</mat-label>-->
-      <!--      <textarea #input (focus)="blur(input)"-->
-      <!--                (focusin)="blur(input)"-->
-      <!--                matInput rows="3"-->
-      <!--                name="content"-->
-      <!--                type="text"></textarea>-->
-      <!--      &lt;!&ndash;    <button [disabled]="!isValid()||uploading" (click)="onUpload()" mat-flat-button color="primary">Post</button>&ndash;&gt;-->
-      <!--      &lt;!&ndash;    <button mat-flat-button>&ndash;&gt;-->
-      <!--      &lt;!&ndash;      <label class="m-0 justify-content-center" for="file">&ndash;&gt;-->
-      <!--      &lt;!&ndash;        <mat-icon class="pointer">image</mat-icon>&ndash;&gt;-->
-      <!--      &lt;!&ndash;        <input (change)="fileSelected($event.target.files[0])" id="file" type="file" class="d-none">&ndash;&gt;-->
-      <!--      &lt;!&ndash;      </label>&ndash;&gt;-->
-      <!--      &lt;!&ndash;    </button>&ndash;&gt;-->
-      <!--      &lt;!&ndash;    <span *ngIf="imageSelected">{{imageSelected.name}}</span>&ndash;&gt;-->
-
-      <!--    </mat-form-field>-->
-      <!--</div>-->
 
       <div *ngIf="loading" class="row justify-content-center mt-5 mb-5">
         <mat-spinner></mat-spinner>
       </div>
-      <!--  *ngIf="(myPosts|async) as arts"-->
 
-
-      <div class="row justify-content-around">
+      <div class=" mt-4 row justify-content-around">
         <div *ngFor="let post of arts" class="col-lg-4 col-md-6 col-sm-12">
           <app-post [post]="post"></app-post>
         </div>
       </div>
-
-      <!--  <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">-->
-      <!--    <app-ngui>-->
-      <!--      <img *ngIf src="https://picsum.photos/800/300?image={{i}}">-->
-      <!--    </app-ngui>-->
-      <!--  </div>-->
-
-
-      <!--  <div class="text-center">-->
-      <!--    <button mat-stroked-button (click)="loadMore()">Show More</button>-->
-      <!--  </div>-->
     </div>
-    <!--<mat-toolbar *ngIf="credit&&!loading&&!uploading" class="mb-0 mt-5 overflow-hidden">-->
-    <!--    <span class="mat-small"> © Copyright 2019 <a href="https://kmit.in" target="_blank">KMIT</a>. <br>-->
-    <!--    | All Rights Reserved</span>-->
-    <!--  <span class="flex-fill"></span>-->
-    <!--  <span class="mat-small">Designed & Developed By <br><a matTooltip="Student at KMIT"-->
-    <!--                                                         routerLink="/profile/XlDfakV2LIgegxJX0E9PhTuyVyF3">Lingala Keshav</a></span>-->
-    <!--</mat-toolbar>-->
 
 
   </mat-tab>
   <mat-tab label="Artists">
-
+    <div class="container mt-5">
+      <div class="row justify-content-around">
+        <div *ngFor="let artist of artists" class="col-lg-4 col-md-6 col-sm-12">
+          <app-artist-card [artist]="artist"></app-artist-card>
+        </div>
+      </div>
+    </div>
   </mat-tab>
 </mat-tab-group>

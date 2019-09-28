@@ -23,7 +23,7 @@ import {
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatRadioModule,
-  MatSelectModule,
+  MatSelectModule, MatSlideToggleModule,
   MatSnackBarModule,
   MatTabsModule,
   MatToolbarModule,
@@ -52,7 +52,9 @@ import {CompressorService} from './Advanced/compressor.service';
 import {UploadPostComponent} from './upload-post/upload-post.component';
 import {NguiComponent} from './ngui/ngui.component';
 import {MessagingService} from './messaging.service';
-import { SettingsComponent } from './settings/settings.component';
+import {SettingsComponent} from './settings/settings.component';
+import {ArtistCardComponent} from './home/artist-card/artist-card.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -69,7 +71,9 @@ import { SettingsComponent } from './settings/settings.component';
     ShareComponent,
     UploadPostComponent,
     NguiComponent,
-    SettingsComponent
+    SettingsComponent,
+    ArtistCardComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +87,7 @@ import { SettingsComponent } from './settings/settings.component';
     MatExpansionModule,
     MatRadioModule,
     MatFormFieldModule,
+    MatSlideToggleModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,

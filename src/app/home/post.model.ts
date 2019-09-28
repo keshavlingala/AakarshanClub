@@ -11,6 +11,7 @@ export interface Post {
 
 export interface Owner {
   uid: string;
+  email: string;
   photoURL: string;
   displayName: string;
 }

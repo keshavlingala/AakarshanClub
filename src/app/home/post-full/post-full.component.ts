@@ -20,11 +20,19 @@ export class PostFullComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private pservice: PostService,
-    private auth: AuthService,
+    private _pservice: PostService,
+    private _auth: AuthService,
     private snack: MatSnackBar,
     private dialog: MatDialog
   ) {
+  }
+
+  get auth(): AuthService {
+    return this._auth;
+  }
+
+  get pservice(): PostService {
+    return this._pservice;
   }
 
   async ngOnInit() {

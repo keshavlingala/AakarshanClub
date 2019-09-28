@@ -25,6 +25,10 @@ export class MessagingService {
     );
   }
 
+  isEnabled() {
+
+  }
+
   /**
    * update token in firebase database
    *
@@ -34,10 +38,10 @@ export class MessagingService {
   updateToken(userId, token) {
     // we can change this function to request our backend service
     if (this.authService.isLoggedIn) {
-      this.angularFireDB.collection('Tokens').doc(userId).set({
+      this.angularFireDB.collection('Tokens').doc(token).set({
         token,
         owner: this.authService.getOwner
-      }).then(console.log);
+      });
     }
   }
 
@@ -53,9 +57,13 @@ export class MessagingService {
         this.updateToken(userId, token);
       },
       (err) => {
-        console.error('Unable to get permission to notify.', err);
+        alert('Browser Not Enabled for Notifications');
       }
     );
+  }
+
+  deleteToken() {
+
   }
 
   /**

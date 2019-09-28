@@ -19,7 +19,7 @@ export class UploadPostComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<UploadPostComponent>,
-    private authService: AuthService,
+    private _authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private toast: ToastrService,
@@ -29,12 +29,17 @@ export class UploadPostComponent implements OnInit {
     private storage: AngularFireStorage,
   ) {
     this.post = {
-      owner: authService.getOwner,
+      owner: _authService.getOwner,
       imageURL: '',
       likes: 0,
       content: '',
-      fullSize: null
+      fullSize: null,
+      commentsCount: 0
     };
+  }
+
+  get authService(): AuthService {
+    return this._authService;
   }
 
   original = false;
@@ -48,16 +53,16 @@ export class UploadPostComponent implements OnInit {
   ngOnInit() {
     console.log(this.post);
     // this.previewImage = 'assets/upload.svg';
-    if (!this.authService.isLoggedIn) {
+    if (!this._authService.isLoggedIn) {
       this.router.navigate(['/login']);
       return;
     }
-    this.post.owner = this.authService.getOwner;
+    this.post.owner = this._authService.getOwner;
     if (!this.post.owner.displayName || !this.post.owner.photoURL || !this.post.owner.uid) {
       this.snackBar.open('Something went Wrong with the Authentication Please login Again', 'Dismiss', {
         duration: 3000
       });
-      this.authService.signout().then(() => {
+      this._authService.signout().then(() => {
         this.router.navigate(['/login']);
       });
     }
@@ -109,13 +114,13 @@ export class UploadPostComponent implements OnInit {
       this.loading = true;
       this.status = 'Generating Thumbnail';
       const compressTask = await this.storage.upload('/Posts/' + '@thumb' + this.post.content +
-        this.authService.getOwner.displayName + (new Date()).getTime(), this.compressedImage, {
+        this._authService.getOwner.displayName + (new Date()).getTime(), this.compressedImage, {
         contentType: this.originalImage.type
       });
       if (this.original) {
         this.status = 'Uploading High Quality Image';
         const fullTask = await this.storage.upload('/Posts/' + '@original' + this.post.content +
-          this.authService.getOwner.displayName + (new Date()).getTime(), this.originalImage, {
+          this._authService.getOwner.displayName + (new Date()).getTime(), this.originalImage, {
           contentType: this.originalImage.type
         });
         this.status = 'Generating URLs';
@@ -137,7 +142,6 @@ export class UploadPostComponent implements OnInit {
         }
       });
       this.loading = false;
-      this.previewImage = '/assets/success.gif';
       await delay(4000);
       this.dialogRef.close();
 

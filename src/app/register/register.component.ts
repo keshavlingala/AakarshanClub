@@ -2,9 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
-import {User} from '../auth/user.model';
+import {User} from '../interfaces/user.model';
 import {AuthService} from '../auth/auth.service';
 import {snapshotChanges} from '@angular/fire/database';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {MatSnackBar} from '@angular/material';
+import {isSnakeCased} from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +32,9 @@ export class RegisterComponent implements OnInit {
     private AfStorage: AngularFireStorage,
     private db: AngularFirestore,
     private authService: AuthService,
-    private route: Router
+    private auth: AngularFireAuth,
+    private route: Router,
+    private snack: MatSnackBar
   ) {
     authService.authState.subscribe(change => {
       if (authService.isLoggedIn) {
@@ -56,7 +61,6 @@ export class RegisterComponent implements OnInit {
       email: null,
       phone: null,
       rollNo: '',
-      isArtist: false,
       section: null,
       year: null,
       photoURL: this.faces[0].img,
@@ -64,6 +68,15 @@ export class RegisterComponent implements OnInit {
       displayName: null
     };
     this.selectedClass = {branch: null, sections: null};
+    this.auth.authState.subscribe(user => {
+        if (user) {
+          this.route.navigate(['']);
+          this.snack.open('Registeration Succefull', '', {
+            duration: 3000
+          });
+        }
+      }
+    );
   }
 
   async onSubmit(email: string, pass: string) {
@@ -77,8 +90,6 @@ export class RegisterComponent implements OnInit {
       // File Upload
       if (this.selectedFile) {
         this.status = 'Profile Pic Uploading...';
-
-
         const upload = await this.AfStorage
           .ref('profiles/' + this.userData.displayName + this.userData.rollNo + (new Date()).getTime())
           .put(this.selectedFile);

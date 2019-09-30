@@ -1,5 +1,6 @@
 <mat-card class="m-2 rounded">
-  <img class="rounded-circle shadow" mat-card-image [src]="artist.photoURL" alt="Artist Profile Pic">
+  <img [routerLink]="'/profile/'+artist.uid" class="rounded-circle shadow" mat-card-image [src]="artist.photoURL"
+       alt="Artist Profile Pic">
   <mat-card-content>
     <h1>{{artist.displayName}}</h1>
     <p>{{artist.postCount}} Posts till Now</p>

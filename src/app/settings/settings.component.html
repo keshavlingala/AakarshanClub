@@ -1,31 +1,34 @@
 <div class="container">
   <mat-accordion>
-    <mat-expansion-panel>
+    <mat-expansion-panel class="mt-4 mb-4">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Enable Notifications
+          Notifications
         </mat-panel-title>
-        <mat-panel-description>
-          Let us send you notifications about new post Updates
-        </mat-panel-description>
       </mat-expansion-panel-header>
+      Let us send you notifications about new post Updates
+      <br>
       <mat-slide-toggle (change)="checked($event)" [checked]="notifications">
         Enable
       </mat-slide-toggle>
     </mat-expansion-panel>
-    <mat-expansion-panel>
+    <mat-expansion-panel class="mt-4 mb-4">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Account Settings
+          Account
         </mat-panel-title>
-        <mat-panel-description>
-          Manage or Delete your Account
-        </mat-panel-description>
       </mat-expansion-panel-header>
+      Manage or Delete your Account
+      <br>
       <mat-slide-toggle [checked]="stayPosts">
         Let Your Posts Stay
       </mat-slide-toggle>
       <button (click)="deleteAccount()" mat-button color="warn">Delete My Account</button>
     </mat-expansion-panel>
+    <button routerLink="edit" color="accent" class="w-100 p-2" mat-stroked-button>
+      Edit profile
+      <mat-icon>arrow_right</mat-icon>
+    </button>
   </mat-accordion>
 </div>
+

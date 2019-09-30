@@ -15,8 +15,8 @@ const store = admin.firestore();
 export const newPost = functions.firestore
   .document('Posts/{postid}').onCreate(async snapshot => {
     const msg = admin.messaging();
-    const post = <Post> snapshot.data();
-    console.log('Started');
+    const post = snapshot.data() as Post;
+    console.log('Started', post);
     const tokens = await store.collection('Tokens').get();
     console.log('Fetched Tokens', tokens.docs);
     const allTokens = tokens.docs.map(doc => {
@@ -40,8 +40,8 @@ export const newPost = functions.firestore
   });
 export const newComment =
   functions.firestore.document('Comments/{cid}').onCreate(async snapshot => {
-    const commentData = snapshot.data() as Comment;
-    return store.collection('Posts').doc(commentData.pid)
+    const data = snapshot.data() as Comment;
+    return store.collection('Posts').doc(data.pid)
       .update({
         commentsCount: FieldValue.increment(1)
       });

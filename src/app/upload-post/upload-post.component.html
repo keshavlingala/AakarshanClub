@@ -32,8 +32,10 @@
   <h6 class="text-center m-3">{{status}}</h6>
 </ng-template>
 <div mat-dialog-actions>
-<!--  <button [disabled]="loading" color="primary" (click)="BugMe()" mat-flat-button>Log</button>-->
-  <button [disabled]="loading" color="primary" (click)="onUpload()" mat-button mat-flat-button>Upload</button>
+  <!--  <button [disabled]="loading" color="primary" (click)="BugMe()" mat-flat-button>Log</button>-->
+  <button [disabled]="!everythingIsCool()||loading" color="primary" (click)="onUpload()" mat-button mat-flat-button>
+    Upload
+  </button>
   <mat-error class="small ml-2 mr-2" *ngIf="original">Uploading takes longer time (Unstable)</mat-error>
   <span class="flex-fill"></span>
   <mat-checkbox labelPosition="before" color="primary" [(ngModel)]="original">Extreme Quality</mat-checkbox>

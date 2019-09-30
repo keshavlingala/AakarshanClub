@@ -35,7 +35,7 @@
         <mat-spinner></mat-spinner>
       </div>
 
-      <div class=" mt-4 row justify-content-around">
+      <div class=" mt-4 row justify-content-around mb-5">
         <div *ngFor="let post of arts" class="col-lg-4 col-md-6 col-sm-12">
           <app-post [post]="post"></app-post>
         </div>
@@ -45,7 +45,7 @@
 
   </mat-tab>
   <mat-tab label="Artists">
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
       <div class="row justify-content-around">
         <div *ngFor="let artist of artists" class="col-lg-4 col-md-6 col-sm-12">
           <app-artist-card [artist]="artist"></app-artist-card>
@@ -54,3 +54,6 @@
     </div>
   </mat-tab>
 </mat-tab-group>
+<button (click)="msg.requestPermission(auth.getUid)" class="myFab" mat-fab>
+  <mat-icon color="#000000">notifications</mat-icon>
+</button>

@@ -27,13 +27,17 @@ export class SettingsComponent implements OnInit {
 
 
   async deleteAccount() {
-    if (confirm('Are you Sure You want to delete your Account')) {
-      if (confirm('This Cannot be Undone Are you Sure')) {
-        await this.auth.deleteAccount();
-        this.snack.open('Account Deleted', '', {
-          duration: 3000
-        });
+    if (this.auth.isLoggedIn) {
+      if (confirm('Are you Sure You want to delete your Account')) {
+        if (confirm('This Cannot be Undone Are you Sure')) {
+          await this.auth.deleteAccount();
+          this.snack.open('Account Deleted', '', {
+            duration: 3000
+          });
+        }
       }
+    } else {
+      alert('Not Logged in');
     }
   }
 

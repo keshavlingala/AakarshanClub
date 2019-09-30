@@ -1,16 +1,13 @@
-import {AfterContentInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {AngularFirestore, AngularFirestoreCollection, CollectionReference, DocumentChangeAction} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/firestore';
 import {Post} from './post.model';
-import {ToastrService} from 'ngx-toastr';
 import {AngularFireStorage} from '@angular/fire/storage';
-import {Comment} from './post.model';
-import {merge, Observable} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs/internal/observable/of';
-import {MatDialog, MatFormField} from '@angular/material';
+import {Observable} from 'rxjs';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {UploadPostComponent} from '../upload-post/upload-post.component';
 import {User} from '../interfaces/user.model';
+import {MessagingService} from '../messaging.service';
 
 @Component({
   selector: 'app-home',
@@ -30,14 +27,19 @@ export class HomeComponent implements OnInit {
   constructor(
     private _auth: AuthService,
     private afs: AngularFirestore,
-    private toast: ToastrService,
+    private snack: MatSnackBar,
     private storage: AngularFireStorage,
-    private matD: MatDialog
+    private matD: MatDialog,
+    private _msg: MessagingService
   ) {
   }
 
   get auth(): AuthService {
     return this._auth;
+  }
+
+  get msg(): MessagingService {
+    return this._msg;
   }
 
   async ngOnInit() {
@@ -61,7 +63,7 @@ export class HomeComponent implements OnInit {
     loadApi.subscribe(posts => {
       this.arts = posts.reverse();
       this.loading = false;
-      console.log(this.arts);
+      // console.log(this.arts);
     });
     this.$artists = this.afs.collection<User>('Users').valueChanges();
     this.$artists.subscribe(artists => {
@@ -120,22 +122,6 @@ export class HomeComponent implements OnInit {
     return this.post.content !== '';
   }
 
-  fileSelected(file: File) {
-    console.log(file);
-    if (file) {
-      if (file.type.includes('image')) {
-        if (file.size <= 5000000) {
-          this.imageSelected = file;
-          this.toast.success(file.name + ' of Size ' + file.size / 1000000 + 'MB will be uploaded');
-          this.post.imageURL = '';
-          return;
-        }
-        this.toast.error('File should be Less than 5 MB');
-      } else {
-        this.toast.error('File should be an image Type');
-      }
-    }
-  }
 
   async onUpload() {
     this.uploading = true;

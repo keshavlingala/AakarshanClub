@@ -21,8 +21,7 @@ export class UploadPostComponent implements OnInit {
     public dialogRef: MatDialogRef<UploadPostComponent>,
     private _authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar,
-    private toast: ToastrService,
+    private snack: MatSnackBar,
     private afs: AngularFirestore,
     private compressor: CompressorService,
     private postService: PostService,
@@ -47,11 +46,11 @@ export class UploadPostComponent implements OnInit {
   loading = false;
   previewImage;
   post: Post;
-  originalImage: File;
-  compressedImage: File;
+  originalImage: File = null;
+  compressedImage: File = null;
 
   ngOnInit() {
-    console.log(this.post);
+    // console.log(this.post);
     // this.previewImage = 'assets/upload.svg';
     if (!this._authService.isLoggedIn) {
       this.router.navigate(['/login']);
@@ -59,7 +58,7 @@ export class UploadPostComponent implements OnInit {
     }
     this.post.owner = this._authService.getOwner;
     if (!this.post.owner.displayName || !this.post.owner.photoURL || !this.post.owner.uid) {
-      this.snackBar.open('Something went Wrong with the Authentication Please login Again', 'Dismiss', {
+      this.snack.open('Something went Wrong with the Authentication Please login Again', 'Dismiss', {
         duration: 3000
       });
       this._authService.signout().then(() => {
@@ -85,10 +84,15 @@ export class UploadPostComponent implements OnInit {
             this.compressedImage = compressedImg;
           });
         } else {
-          this.toast.error('File should be Less than 5 MB');
+
+          this.snack.open('File should be Less than 5 MB', '', {
+            duration: 2000
+          });
         }
       } else {
-        this.toast.error('File should be an image Type');
+        this.snack.open('File should be an image Type', '', {
+          duration: 2000
+        });
       }
     } else {
       this.originalImage = null;
@@ -106,7 +110,7 @@ export class UploadPostComponent implements OnInit {
   }
 
   everythingIsCool() {
-    return true;
+    return this.originalImage !== null && this.post.owner && this.post.content !== '';
   }
 
   async onUpload() {

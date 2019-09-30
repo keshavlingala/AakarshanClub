@@ -1,8 +1,8 @@
 {
-  "name": "Aakarshan-v20",
-  "short_name": "Aakarshan-v20",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Aakarshan",
+  "short_name": "Aakarshan",
+  "theme_color": "#00838f",
+  "background_color": "#ff9800",
   "display": "standalone",
   "scope": "/",
   "gcm_sender_id": "103953800507",

@@ -47,7 +47,6 @@ import {PostFullComponent} from './home/post-full/post-full.component';
 import {PopLoginComponent} from './pop-login/pop-login.component';
 import {ProfileComponent} from './profile/profile.component';
 import {ShareComponent} from './share/share.component';
-import {ToastrModule, ToastrService} from 'ngx-toastr';
 import {CompressorService} from './Advanced/compressor.service';
 import {UploadPostComponent} from './upload-post/upload-post.component';
 import {NguiComponent} from './ngui/ngui.component';
@@ -55,6 +54,7 @@ import {MessagingService} from './messaging.service';
 import {SettingsComponent} from './settings/settings.component';
 import {ArtistCardComponent} from './home/artist-card/artist-card.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -73,7 +73,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     NguiComponent,
     SettingsComponent,
     ArtistCardComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +103,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatSnackBarModule,
     MatTabsModule,
     MatBottomSheetModule,
-    ToastrModule.forRoot(),
     HttpClientModule,
     MatToolbarModule,
     MatTooltipModule,
@@ -129,7 +129,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
   providers: [
     AuthService,
     PostService,
-    ToastrService,
     CompressorService,
     MessagingService
   ],

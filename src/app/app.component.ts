@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './auth/auth.service';
 import {HttpClient} from '@angular/common/http';
+import {MessagingService} from './messaging.service';
 
 
 @Component({
@@ -13,11 +14,16 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _auth: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private _msg: MessagingService
   ) {
   }
 
   ngOnInit(): void {
+  }
+
+  get msg(): MessagingService {
+    return this._msg;
   }
 
   get auth(): AuthService {

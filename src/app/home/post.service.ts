@@ -62,9 +62,6 @@ export class PostService {
     this.afs.collection('Posts').doc(post.pid).update({
       likes: firestore.FieldValue.increment(1)
     });
-    this.snack.open('Post Liked', '', {
-      duration: 1000,
-    });
   }
 
   sharePost(post: Post) {

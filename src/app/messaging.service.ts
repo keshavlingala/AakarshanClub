@@ -5,6 +5,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireMessaging} from '@angular/fire/messaging';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {take} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class MessagingService {
   constructor(
     private authService: AuthService,
     private angularFireDB: AngularFirestore,
+    private snack: MatSnackBar,
     private angularFireMessaging: AngularFireMessaging) {
     this.angularFireMessaging.messaging.subscribe(
       (_messaging) => {
@@ -35,14 +37,26 @@ export class MessagingService {
    * @param userId userId as a key
    * @param token token as a value
    */
-  updateToken(userId, token) {
+  async updateToken(userId, token) {
     // we can change this function to request our backend service
     if (this.authService.isLoggedIn) {
-      this.angularFireDB.collection('Tokens').doc(token).set({
+      await this.angularFireDB.collection('Tokens').doc(token).set({
         token,
         owner: this.authService.getOwner
       });
+      this.snack.open('Notifications Enabled', '', {
+        duration: 500
+      });
+    } else {
+      await this.angularFireDB.collection('Tokens').doc(token).set({
+        token,
+        owner: null
+      });
+      this.snack.open('Notifications Enabled', '', {
+        duration: 500
+      });
     }
+    console.log('Notifications Token Updated');
   }
 
   /**
@@ -51,9 +65,9 @@ export class MessagingService {
    * @param userId userId
    */
   requestPermission(userId) {
+    console.log('Requested');
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
-        console.log(token);
         this.updateToken(userId, token);
       },
       (err) => {
@@ -72,7 +86,7 @@ export class MessagingService {
   receiveMessage() {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {
-        console.log('new message received. ', payload);
+        // console.log('new message received. ', payload);
         this.currentMessage.next(payload);
       });
   }

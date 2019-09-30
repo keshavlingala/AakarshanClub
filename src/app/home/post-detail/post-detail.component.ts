@@ -26,7 +26,7 @@ export class PostDetailComponent implements OnInit {
     if (this.data) {
       this.post = this.data;
     } else {
-      console.log(actRout.snapshot.params);
+      // console.log(actRout.snapshot.params);
     }
   }
 
@@ -41,7 +41,7 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    console.log('Post Called from ', this.post.pid);
+    // console.log('Post Called from ', this.post.pid);
     this.afs
       .collection<Comment>('Comments', ref => ref.where('pid', '==', this.post.pid))
       .snapshotChanges().subscribe(snap => {

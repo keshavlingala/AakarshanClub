@@ -26,19 +26,19 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Showing profile Compoent');
+    // console.log('Showing profile Compoent');
     let uid = '';
     this.route.params.subscribe(u => {
-      console.log(u);
+      // console.log(u);
       uid = u.uid;
       if (uid) {
-        console.log('UID Exits');
+        // console.log('UID Exits');
         // Load Profile
         this.$profile = this.afs.collection<User>('Users').doc<User>(uid).valueChanges();
         this.$profile.subscribe(val => {
           if (!val) {
-            console.log('No Valid User Navigating to /profile');
-            this.router.navigate(['/404']);
+            // console.log('No Valid User Navigating to /profile');
+            this.router.navigate(['profile', '404']);
           }
         });
         // Load User Posts

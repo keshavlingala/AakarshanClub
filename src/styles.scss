@@ -87,9 +87,11 @@ body {
   margin: 5px 5px 5px 5px;
   height: 100px;
 }
-.face:active{
-  border:solid white 2px;
+
+.face:active {
+  border: solid white 2px;
 }
+
 #message {
   background: white;
   max-width: 360px;
@@ -138,4 +140,13 @@ body {
   color: rgba(0, 0, 0, 0.4);
   text-align: center;
   font-size: 13px;
+}
+
+.myFab {
+  position: fixed !important;
+  top: auto;
+  left: auto;
+  bottom: 20px;
+  z-index: 20;
+  right: 20px;
 }

@@ -12,9 +12,9 @@ export interface Token {
 
 admin.initializeApp();
 const store = admin.firestore();
+const msg = admin.messaging();
 export const newPost = functions.firestore
   .document('Posts/{postid}').onCreate(async snapshot => {
-    const msg = admin.messaging();
     const post = snapshot.data() as Post;
     console.log('Started', post);
     const tokens = await store.collection('Tokens').get();
@@ -63,5 +63,19 @@ export const postDelete = functions.firestore.document('Posts/{pid}')
     const post = snapshot.data() as Post;
     return store.collection('Users').doc(post.owner.uid).update({
       postCount: FieldValue.increment((-1))
+    });
+  });
+export const thanks = functions.firestore
+  .document(`Tokens/{tid}`).onCreate(snapshot => {
+    const token = snapshot.data() as Token;
+    console.log('New Subscriber', token);
+    return msg.sendToDevice(token.token, {
+      notification: {
+        title: 'Subscription Success',
+        body: 'Thanks for subscribing to Aakarshan, hope you will see great Arts ',
+        clickAction: 'https://aakarshan.web.app'
+      }
+    }, {
+      priority: 'high'
     });
   });

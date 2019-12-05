@@ -49,7 +49,6 @@ import {ProfileComponent} from './profile/profile.component';
 import {ShareComponent} from './share/share.component';
 import {CompressorService} from './Advanced/compressor.service';
 import {UploadPostComponent} from './upload-post/upload-post.component';
-import {NguiComponent} from './ngui/ngui.component';
 import {MessagingService} from './messaging.service';
 import {SettingsComponent} from './settings/settings.component';
 import {ArtistCardComponent} from './home/artist-card/artist-card.component';
@@ -70,7 +69,6 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     ProfileComponent,
     ShareComponent,
     UploadPostComponent,
-    NguiComponent,
     SettingsComponent,
     ArtistCardComponent,
     NotFoundComponent,
@@ -98,7 +96,6 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatRadioModule,
     MatSelectModule,
     MatSnackBarModule,
     MatTabsModule,
@@ -117,8 +114,6 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     AngularFireMessagingModule,
     FormsModule,
     BrowserAnimationsModule,
-    // IonicModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   entryComponents: [
     PostDetailComponent,

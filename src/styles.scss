@@ -150,3 +150,7 @@ body {
   z-index: 20;
   right: 20px;
 }
+.scrollable {
+  overflow: auto;
+  max-height: 100vh;
+}

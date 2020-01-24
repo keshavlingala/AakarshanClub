@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore, QueryFn} from '@angular/fire/firestore';
 import {Post} from './post.model';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
@@ -8,6 +8,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {UploadPostComponent} from '../upload-post/upload-post.component';
 import {User} from '../interfaces/user.model';
 import {MessagingService} from '../messaging.service';
+import {last, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -20,9 +21,11 @@ export class HomeComponent implements OnInit {
   uploading: boolean;
   imageSelected: File;
   loading: boolean;
-  showing = 1;
   $artists: Observable<User[]>;
   artists: User[];
+  query: QueryFn = (ref) => {
+    return ref.orderBy('timeStamp', 'desc').limit(9);
+  };
 
   constructor(
     private _auth: AuthService,
@@ -50,21 +53,20 @@ export class HomeComponent implements OnInit {
       likes: 0,
       owner: this.auth.getOwner,
     };
+
     // const posts = JSON.parse(localStorage.getItem('posts')) as Post[];
     // this.showing = posts.length;
-    const loadApi: Observable<Post[]> = this.afs
-      .collection<Post>('Posts')
-      .valueChanges();
+    this.afs.collection<Post>('Posts', this.query).valueChanges().subscribe(posts => {
+      this.arts = posts;
+      this.loading = false;
+    });
+    this.myPosts.pipe(
+      last(),
+      map(docs => docs[0])
+    );
 
 // TODO : Limit posts and lazy load images
-//    Also Change Add commentsCount inn AAll posts documents
 //    for existing docs and new posts
-
-    loadApi.subscribe(posts => {
-      this.arts = posts.reverse();
-      this.loading = false;
-      // console.log(this.arts);
-    });
     this.$artists = this.afs.collection<User>('Users').valueChanges();
     this.$artists.subscribe(artists => {
       this.artists = artists;
@@ -160,8 +162,7 @@ export class HomeComponent implements OnInit {
   }
 
   loadMore() {
-    console.log('Arts', this.arts);
-    console.log('my Posts', this.myPosts);
+    // this.myPosts = this.afs.collection<Post>('Posts', ref => ref);
   }
 
   openDialogBox() {

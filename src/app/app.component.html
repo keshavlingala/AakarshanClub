@@ -1,24 +1,24 @@
-<script src="home/home.component.ts"></script>
-<mat-toolbar color="primary">
-  <button routerLink="/" mat-button>Aakarshan</button>
-  <span class="flex-fill"></span>
-  <button *ngIf="!auth.isLoggedIn" mat-button routerLink="/register">Register</button>
-  <button *ngIf="!auth.isLoggedIn" mat-button routerLink="/login">Login</button>
-  <mat-icon *ngIf="auth.isLoggedIn" class="pointer" [matMenuTriggerFor]="menu">more_vert</mat-icon>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/profile">
-      <mat-icon color="accent">face</mat-icon>
-      Profile
-    </button>
-    <button routerLink="/settings" mat-menu-item>
-      <mat-icon>settings</mat-icon>
-      Settings
-    </button>
-    <button (click)="auth.signout()" mat-menu-item>
-      <mat-icon color="warn">logout</mat-icon>
-      Logout
-    </button>
-  </mat-menu>
-</mat-toolbar>
-<router-outlet></router-outlet>
-
+<div class="scrollable">
+  <mat-toolbar color="primary">
+    <button routerLink="/" mat-button>Aakarshan</button>
+    <span class="flex-fill"></span>
+    <button *ngIf="!auth.isLoggedIn" mat-button routerLink="/register">Register</button>
+    <button *ngIf="!auth.isLoggedIn" mat-button routerLink="/login">Login</button>
+    <mat-icon *ngIf="auth.isLoggedIn" class="pointer" [matMenuTriggerFor]="menu">more_vert</mat-icon>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/profile">
+        <mat-icon color="accent">face</mat-icon>
+        Profile
+      </button>
+      <button routerLink="/settings" mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        Settings
+      </button>
+      <button (click)="auth.signout()" mat-menu-item>
+        <mat-icon color="warn">logout</mat-icon>
+        Logout
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+</div>

@@ -1,7 +1,7 @@
 <mat-card class="m-2 rounded">
   <img [routerLink]="'/profile/'+artist.uid" class="rounded-circle shadow" mat-card-image [src]="artist.photoURL"
        alt="Artist Profile Pic">
-  <mat-card-content>
+  <mat-card-content class="pointer">
     <h1>{{artist.displayName}}</h1>
     <p>{{artist.postCount}} Posts till Now</p>
     {{artist.year}} {{artist.branch}} {{artist.section}}
@@ -10,6 +10,6 @@
     <button matTooltip="Email for Custom Arts" color="primary" (click)="mail('mailto:'+artist.email)" mat-button>
       Contact
     </button>
-    <button matTooltip="Share Profile" color="apccent" mat-button>Share</button>
+    <button (click)="share()" matTooltip="Share Profile" color="apccent" mat-button>Share</button>
   </mat-card-actions>
 </mat-card>

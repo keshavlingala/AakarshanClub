@@ -34,7 +34,8 @@
         <mat-icon [matBadge]="post.commentsCount?.toString()" matBadgeColor="accent" class="pointer">comment
         </mat-icon>
       </button>
-      <button (click)="pService.sharePost(post)" mat-button>
+      <button (click)="pService.sharePost({type:'post',id:post.pid,name:post.owner.displayName,url:post.imageURL})"
+              mat-button>
         <mat-icon class="pointer">share</mat-icon>
       </button>
     </div>

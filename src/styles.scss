@@ -136,6 +136,10 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
+mat-card-title {
+  cursor: pointer;
+}
+
 #load {
   color: rgba(0, 0, 0, 0.4);
   text-align: center;
@@ -150,7 +154,36 @@ body {
   z-index: 20;
   right: 20px;
 }
-.scrollable {
+
+.scrollable-1 {
   overflow: auto;
-  max-height: 100vh;
+  max-height: 89vh;
+}
+
+
+.scrollable-2 {
+  overflow: auto;
+  max-height: 80vh;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #F90;
+  background-image: -webkit-linear-gradient(90deg,
+    rgba(255, 255, 255, .2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, .2) 50%,
+    rgba(255, 255, 255, .2) 75%,
+    transparent 75%,
+    transparent)
 }

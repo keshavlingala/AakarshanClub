@@ -1,4 +1,5 @@
 export interface User {
+  doc?: any;
   uid?: string;
   photoURL?: string;
   displayName?: string;

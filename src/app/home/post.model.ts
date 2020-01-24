@@ -1,4 +1,5 @@
 export interface Post {
+  doc?: any;
   pid?: string;
   content: string;
   imageURL?: string;

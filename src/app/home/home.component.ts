@@ -9,31 +9,32 @@ import {UploadPostComponent} from '../upload-post/upload-post.component';
 import {User} from '../interfaces/user.model';
 import {MessagingService} from '../messaging.service';
 import {last, map} from 'rxjs/operators';
+import {FirestoreService} from '../firestore.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  post: Post;
-  myPosts: Observable<Post[]>;
-  arts: Post[] = [];
-  uploading: boolean;
-  imageSelected: File;
-  loading: boolean;
-  $artists: Observable<User[]>;
-  artists: User[];
-  query: QueryFn = (ref) => {
-    return ref.orderBy('timeStamp', 'desc').limit(9);
-  };
+  // post: Post;
+  // myPosts: Observable<Post[]>;
+  // arts: Post[] = [];
+  // uploading: boolean;
+  // imageSelected: File;
+  // loading: boolean;
+  // $artists: Observable<User[]>;
+  // artists: User[];
+  // query: QueryFn = (ref) => {
+  //   return ref.orderBy('timeStamp', 'desc').limit(9);
+  // }
 
   constructor(
     private _auth: AuthService,
     private afs: AngularFirestore,
     private snack: MatSnackBar,
-    private storage: AngularFireStorage,
     private matD: MatDialog,
-    private _msg: MessagingService
+    private _msg: MessagingService,
+    private store: FirestoreService
   ) {
   }
 
@@ -46,31 +47,27 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.loading = true;
-    this.post = {
-      content: '',
-      imageURL: '',
-      likes: 0,
-      owner: this.auth.getOwner,
-    };
+    this.store.initPosts('timeStamp');
+    this.store.initArtists('postCount', );
 
+    console.log(this.store.posts.value);
     // const posts = JSON.parse(localStorage.getItem('posts')) as Post[];
     // this.showing = posts.length;
-    this.afs.collection<Post>('Posts', this.query).valueChanges().subscribe(posts => {
-      this.arts = posts;
-      this.loading = false;
-    });
-    this.myPosts.pipe(
-      last(),
-      map(docs => docs[0])
-    );
+    // this.afs.collection<Post>('Posts', this.query).valueChanges().subscribe(posts => {
+    //   this.arts = posts;
+    //   this.loading = false;
+    // });
+    // this.myPosts.pipe(
+    //   last(),
+    //   map(docs => docs[0])
+    // );
 
 // TODO : Limit posts and lazy load images
 //    for existing docs and new posts
-    this.$artists = this.afs.collection<User>('Users').valueChanges();
-    this.$artists.subscribe(artists => {
-      this.artists = artists;
-    });
+//     this.$artists = this.afs.collection<User>('Users').valueChanges();
+//     this.$artists.subscribe(artists => {
+//       this.artists = artists;
+//     });
     // if (posts && posts.length > 0) {
     //   this.myPosts = of(posts);
     //   this.arts = posts;
@@ -120,53 +117,69 @@ export class HomeComponent implements OnInit {
   }
 
 
-  isValid() {
-    return this.post.content !== '';
-  }
+  // isValid() {
+  //   return this.post.content !== '';
+  // }
 
 
-  async onUpload() {
-    this.uploading = true;
-    try {
-      if (this.imageSelected) {
-        const task = await this.storage
-          .upload('/Posts/' + this.auth.getOwner.displayName + this.imageSelected.name + (new Date().getTime()), this.imageSelected);
-        this.post.imageURL = await task.ref.getDownloadURL();
-      } else {
-        delete this.post.imageURL;
-      }
-    } catch (e) {
-      console.log('Uploading Failed');
-      console.log(e);
-    }
-    try {
-      this.afs.collection('Posts').add(this.post).then(value => {
-        console.log(value);
-        console.log('Post uploaded');
-        this.uploading = false;
-        this.resetForm();
-        this.imageSelected = null;
-      });
-    } catch (e) {
-      console.log(e);
-      console.log('Database Update Failed');
-    }
-  }
+  // async onUpload() {
+  //   this.uploading = true;
+  //   try {
+  //     if (this.imageSelected) {
+  //       const task = await this.storage
+  //         .upload('/Posts/' + this.auth.getOwner.displayName + this.imageSelected.name + (new Date().getTime()), this.imageSelected);
+  //       this.post.imageURL = await task.ref.getDownloadURL();
+  //     } else {
+  //       delete this.post.imageURL;
+  //     }
+  //   } catch (e) {
+  //     console.log('Uploading Failed');
+  //     console.log(e);
+  //   }
+  //   try {
+  //     this.afs.collection('Posts').add(this.post).then(value => {
+  //       console.log(value);
+  //       console.log('Post uploaded');
+  //       this.uploading = false;
+  //       this.resetForm();
+  //       this.imageSelected = null;
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //     console.log('Database Update Failed');
+  //   }
+  // }
 
-  resetForm() {
-    this.post = {
-      likes: 0,
-      content: '',
-      owner: this.auth.getOwner
-    };
-  }
+  // resetForm() {
+  //   this.post = {
+  //     likes: 0,
+  //     content: '',
+  //     owner: this.auth.getOwner
+  //   };
+  // }
 
-  loadMore() {
-    // this.myPosts = this.afs.collection<Post>('Posts', ref => ref);
-  }
+  // loadMore() {
+  //   // this.myPosts = this.afs.collection<Post>('Posts', ref => ref);
+  // }
 
   openDialogBox() {
     this.matD.open(UploadPostComponent);
   }
 
+  log() {
+    console.log(this.store.artists.value);
+  }
+
+  homeScrolled(event: any) {
+    console.log(event);
+    if (event === 'bottom') {
+      this.store.moreP();
+    }
+  }
+
+  artistScrolled(event: any) {
+    if (event === 'bottom') {
+      this.store.moreArtists();
+    }
+  }
 }

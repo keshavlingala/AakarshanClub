@@ -7,11 +7,14 @@ import {PopLoginComponent} from '../pop-login/pop-login.component';
 import {firestore} from 'firebase/app';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ShareComponent} from '../share/share.component';
+import {BehaviorSubject, Observable} from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+
 
   constructor(
     private snack: MatSnackBar,
@@ -25,7 +28,7 @@ export class PostService {
 
   isPostOwner(post: Post) {
     // console.log(post);
-    if (this.auth.isLoggedIn && post.owner.email == this.auth.getOwner.email) {
+    if (this.auth.isLoggedIn && post.owner.email === this.auth.getOwner.email) {
       return true;
     } else {
       return false;
@@ -62,9 +65,9 @@ export class PostService {
     });
   }
 
-  sharePost(post: Post) {
+  sharePost(data: { type: 'post' | 'profile', id: string, name: string, url: string }) {
     this.share.open(ShareComponent, {
-      data: post
+      data
     });
   }
 

@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   get msg(): MessagingService {
@@ -29,4 +30,7 @@ export class AppComponent implements OnInit {
     return this._auth;
   }
 
+  update(event: any) {
+    console.log(event);
+  }
 }

@@ -52,8 +52,11 @@ import {UploadPostComponent} from './upload-post/upload-post.component';
 import {MessagingService} from './messaging.service';
 import {SettingsComponent} from './settings/settings.component';
 import {ArtistCardComponent} from './home/artist-card/artist-card.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import {NotFoundComponent} from './not-found/not-found.component';
+import {EditProfileComponent} from './edit-profile/edit-profile.component';
+import {ScrollableDirective} from './scrollable.directive';
+import {FirestoreService} from './firestore.service';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
@@ -72,7 +75,9 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     SettingsComponent,
     ArtistCardComponent,
     NotFoundComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ScrollableDirective,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -125,7 +130,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     AuthService,
     PostService,
     CompressorService,
-    MessagingService
+    MessagingService,
+    FirestoreService
   ],
   bootstrap: [AppComponent]
 })

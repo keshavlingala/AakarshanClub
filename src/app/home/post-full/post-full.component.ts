@@ -4,7 +4,8 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Comment, Post} from '../post.model';
 import {PostService} from '../post.service';
 import {AuthService} from '../../auth/auth.service';
-import {MatDialog, MatSnackBar} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {LoginComponent} from '../../login/login.component';
 import {PopLoginComponent} from '../../pop-login/pop-login.component';
 

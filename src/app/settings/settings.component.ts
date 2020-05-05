@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MessagingService} from '../messaging.service';
 import {AuthService} from '../auth/auth.service';
-import {MatSlideToggleChange, MatSnackBar} from '@angular/material';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({

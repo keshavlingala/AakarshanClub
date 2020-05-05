@@ -6,7 +6,7 @@ import {User} from '../interfaces/user.model';
 import {AuthService} from '../auth/auth.service';
 import {snapshotChanges} from '@angular/fire/database';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {isSnakeCased} from 'tslint/lib/utils';
 
 @Component({

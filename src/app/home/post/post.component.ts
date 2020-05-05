@@ -3,7 +3,7 @@ import {Post} from '../post.model';
 import {AuthService} from '../../auth/auth.service';
 import {PostService} from '../post.service';
 import {PostDetailComponent} from '../post-detail/post-detail.component';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {Router} from '@angular/router';
 
 @Component({

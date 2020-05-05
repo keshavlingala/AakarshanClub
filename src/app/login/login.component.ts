@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {__await} from 'tslib';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Post} from '../home/post.model';
 import {PostService} from '../home/post.service';
 

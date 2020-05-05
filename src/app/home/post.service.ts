@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Comment, Post} from './post.model';
-import {MatBottomSheet, MatDialog, MatSnackBar} from '@angular/material';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {AuthService} from '../auth/auth.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {PopLoginComponent} from '../pop-login/pop-login.component';

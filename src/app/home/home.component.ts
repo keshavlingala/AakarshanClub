@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {MatDialog, MatSnackBar} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import {UploadPostComponent} from '../upload-post/upload-post.component';
 import {MessagingService} from '../messaging.service';
 import {FirestoreService} from '../firestore.service';

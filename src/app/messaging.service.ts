@@ -5,7 +5,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireMessaging} from '@angular/fire/messaging';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {take} from 'rxjs/operators';
-import {MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'

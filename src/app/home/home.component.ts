@@ -1,14 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {AngularFirestore, QueryFn} from '@angular/fire/firestore';
-import {Post} from './post.model';
-import {AngularFireStorage} from '@angular/fire/storage';
-import {Observable} from 'rxjs';
+import {AngularFirestore} from '@angular/fire/firestore';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {UploadPostComponent} from '../upload-post/upload-post.component';
-import {User} from '../interfaces/user.model';
 import {MessagingService} from '../messaging.service';
-import {last, map} from 'rxjs/operators';
 import {FirestoreService} from '../firestore.service';
 
 @Component({
@@ -34,7 +29,7 @@ export class HomeComponent implements OnInit {
     private snack: MatSnackBar,
     private matD: MatDialog,
     private _msg: MessagingService,
-    private store: FirestoreService
+    private _store: FirestoreService
   ) {
   }
 
@@ -46,11 +41,15 @@ export class HomeComponent implements OnInit {
     return this._msg;
   }
 
-  async ngOnInit() {
-    this.store.initPosts('timeStamp');
-    this.store.initArtists('postCount', );
+  get store(): FirestoreService {
+    return this._store;
+  }
 
-    console.log(this.store.posts.value);
+  async ngOnInit() {
+    this._store.initPosts('timeStamp');
+    this._store.initArtists('postCount',);
+
+    // console.log(this._store.posts.value);
     // const posts = JSON.parse(localStorage.getItem('posts')) as Post[];
     // this.showing = posts.length;
     // this.afs.collection<Post>('Posts', this.query).valueChanges().subscribe(posts => {
@@ -61,13 +60,6 @@ export class HomeComponent implements OnInit {
     //   last(),
     //   map(docs => docs[0])
     // );
-
-// TODO : Limit posts and lazy load images
-//    for existing docs and new posts
-//     this.$artists = this.afs.collection<User>('Users').valueChanges();
-//     this.$artists.subscribe(artists => {
-//       this.artists = artists;
-//     });
     // if (posts && posts.length > 0) {
     //   this.myPosts = of(posts);
     //   this.arts = posts;
@@ -166,20 +158,17 @@ export class HomeComponent implements OnInit {
     this.matD.open(UploadPostComponent);
   }
 
-  log() {
-    console.log(this.store.artists.value);
-  }
 
   homeScrolled(event: any) {
     console.log(event);
     if (event === 'bottom') {
-      this.store.moreP();
+      this._store.moreP();
     }
   }
 
   artistScrolled(event: any) {
     if (event === 'bottom') {
-      this.store.moreArtists();
+      this._store.moreArtists();
     }
   }
 }

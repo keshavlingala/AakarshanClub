@@ -48,6 +48,9 @@
 
   </mat-tab>
   <!--  Artists-->
+  <div *ngIf="store.loadingA | async" class="row justify-content-center mt-5 mb-5">
+    <app-spinner></app-spinner>
+  </div>
   <mat-tab label="Artists">
     <div appScrollable (scrollPosition)="artistScrolled($event)" class="scrollable-2">
       <mat-card class="rounded mt-5 pointer container">

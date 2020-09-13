@@ -9,13 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Cache node modules
+          uses: actions/cache@v2
+          env:
+            cache-name: cache-node-modules
+          with:
+            path: ~/.npm
+            key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-build-${{ env.cache-name }}-
+              ${{ runner.os }}-build-
+              ${{ runner.os }}-
       - uses: actions/setup-node@master
         with:
           node-version: 12
       - run: npm install
       - run: npm run build:prod
 #     Installing Firebase
-      - run: curl -sL https://firebase.tools | bash
+      - run: npm i -g firebase-tools
 #     Customized Firebase Deploy with multiple domains
       - run: firebase target:apply hosting aakarshankmit aakarshankmit --token ${{ secrets.FIREBASE_TOKEN }}
       - run: firebase target:apply hosting aakarshan aakarshan --token ${{ secrets.FIREBASE_TOKEN }}

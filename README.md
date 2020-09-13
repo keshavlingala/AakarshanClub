@@ -1,4 +1,6 @@
 # Aakarshan V2.0
+[![Firebase Deployment Actions Status](https://github.com/keshavlingala/AakarshanClub/workflows/Deploy%20to%20Firebase/badge.svg)](https://github.com/keshavlingala/AakarshanClub/actions)
+
 This platform is for Students of Keshav Memorial institute of Technology.
 Where everyone can upload their Arts and showcase their Skills
 

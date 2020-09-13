@@ -4,7 +4,13 @@ import {PostService} from '../post.service';
 
 @Component({
   selector: 'app-artist-card',
-  templateUrl: './artist-card.component.html'
+  templateUrl: './artist-card.component.html',
+  styles: [`
+    .rounded-circle {
+        height: 334px;
+        object-fit: cover;
+    }
+  `]
 })
 export class ArtistCardComponent implements OnInit {
   @Input() artist: User;

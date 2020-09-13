@@ -1,27 +1,29 @@
-<mat-progress-bar *ngIf="loading" class="m-1" mode="indeterminate" color="warn"></mat-progress-bar>
+<mat-progress-bar *ngIf="loading" class="m-1" color="warn" mode="indeterminate"></mat-progress-bar>
 <div class="row">
   <span class="flex-fill"></span>
-  <mat-icon class="pointer" (click)="dialogRef.close()">close</mat-icon>
+  <mat-icon (click)="dialogRef.close()" class="pointer">close</mat-icon>
 </div>
 <div class="container">
   <div class="row">
     <div class="justify-content-center p-3 m-3">
       <div class="row">
         <div class="col-sm">
-          <img class="card-img-top" src="./assets/logo.jpg" alt="">
+          <img alt="" class="card-img-top" src="./assets/logo.jpg">
         </div>
         <div class="w-100 text-center col-sm align-items-center">
           <mat-form-field class="w-100">
-            <input type="email" #email matInput placeholder="Username" autofocus required>
+            <input #email autofocus matInput placeholder="Username" required type="email">
           </mat-form-field>
-          <mat-form-field class="w-100">
-            <input type="password" #password matInput placeholder="Password" required>
+          <mat-form-field (keyup.enter)="login(email.value,password.value)" class="w-100">
+            <input #password matInput placeholder="Password" required type="password">
           </mat-form-field>
           <br>
-          <button (click)="login(email.value,password.value)" mat-flat-button
-                  color="primary">Login
+          <button (click)="login(email.value,password.value)" (keyup.enter)="login(email.value,password.value)"
+                  color="primary"
+                  mat-flat-button
+                  type="button">Login
           </button>
-          <button routerLink="/register" class="mt-3 w-100" mat-flat-button color="accent">Register</button>
+          <button class="mt-3 w-100" color="accent" mat-flat-button routerLink="/register">Register</button>
         </div>
       </div>
     </div>

@@ -3,9 +3,7 @@ import {BehaviorSubject} from 'rxjs';
 import {AuthService} from './auth/auth.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireMessaging} from '@angular/fire/messaging';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {take} from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +17,12 @@ export class MessagingService {
     private angularFireDB: AngularFirestore,
     private snack: MatSnackBar,
     private angularFireMessaging: AngularFireMessaging) {
-    this.angularFireMessaging.messaging.subscribe(
-      (_messaging) => {
-        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
-        _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
-      }
-    );
+    // this.angularFireMessaging.messages.subscribe(
+    //   (_messaging) => {
+    //     _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+    //     _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
+    //   }
+    // );
   }
 
   isEnabled() {
@@ -45,7 +43,8 @@ export class MessagingService {
         owner: this.authService.getOwner
       });
       this.snack.open('Notifications Enabled', '', {
-        duration: 500
+        duration: 1000,
+        verticalPosition: 'bottom'
       });
     } else {
       await this.angularFireDB.collection('Tokens').doc(token).set({
@@ -64,7 +63,7 @@ export class MessagingService {
    *
    * @param userId userId
    */
-  requestPermission(userId) {
+  async requestPermission(userId) {
     console.log('Requested');
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {

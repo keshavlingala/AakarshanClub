@@ -1,7 +1,7 @@
 <mat-tab-group backgroundColor="primary" mat-stretch-tabs>
   <!--  Posts-->
   <mat-tab label="Posts">
-    <div appScrollable (scrollPosition)="homeScrolled($event)" class="scrollable-2">
+    <div (scrollPosition)="homeScrolled($event)" appScrollable class="scrollable-2">
       <ng-template #login>
         <div class=" row justify-content-around mt-5">
           <mat-expansion-panel>
@@ -15,8 +15,8 @@
             </mat-expansion-panel-header>
 
             <div class="row justify-content-around">
-              <button routerLink="/login" color="primary" mat-stroked-button>Login</button>
-              <button routerLink="/register" color="accent" mat-stroked-button>Register</button>
+              <button color="primary" mat-stroked-button routerLink="/login">Login</button>
+              <button color="accent" mat-stroked-button routerLink="/register">Register</button>
             </div>
           </mat-expansion-panel>
         </div>
@@ -52,9 +52,9 @@
     <app-spinner></app-spinner>
   </div>
   <mat-tab label="Artists">
-    <div appScrollable (scrollPosition)="artistScrolled($event)" class="scrollable-2">
+    <div (scrollPosition)="artistScrolled($event)" appScrollable class="scrollable-2">
       <mat-card class="rounded mt-5 pointer container">
-        Liked the Work ....? 😁
+        Liked Something ....? 😁
         Share or Contact that Artist
       </mat-card>
       <div class="container mt-5 mb-5">

@@ -161,7 +161,7 @@ export class HomeComponent implements OnInit {
 
 
   homeScrolled(event: any) {
-    console.log(event);
+    // console.log(event);
     if (event === 'bottom') {
       this._store.moreP();
     }

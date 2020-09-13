@@ -4,13 +4,10 @@ import {User} from '../interfaces/user.model';
 import {Observable} from 'rxjs';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
-import {map, switchMap, take, tap} from 'rxjs/operators';
+import {switchMap} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 import {auth} from 'firebase/app';
-import {loggedIn} from '@angular/fire/auth-guard';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {LoginComponent} from '../login/login.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {Owner} from '../home/post.model';
 import {AngularFireStorage} from '@angular/fire/storage';
 
@@ -46,7 +43,8 @@ export class AuthService {
           }
         }
       ));
-    afAuth.auth.onAuthStateChanged(user => {
+    // afAuth
+    afAuth.onAuthStateChanged(user => {
       if (user) {
         this.user$ = afs.doc<User>(`Users/${user.uid}`).valueChanges();
         this.user$.subscribe(local => {
@@ -85,20 +83,6 @@ export class AuthService {
     }
   }
 
-  getUser(): User {
-    if (this.isLoggedIn) {
-      const localUser = JSON.parse(localStorage.getItem('user'));
-      if (localUser !== null) {
-        return localUser as User;
-      }
-    } else {
-      this.snackbar.open('Login to upload new post', 'Dismiss', {
-        duration: 1000
-      });
-      return null;
-    }
-  }
-
   get getOwner(): Owner {
     if (this.isLoggedIn) {
       const localUser = JSON.parse(localStorage.getItem('user'));
@@ -123,21 +107,35 @@ export class AuthService {
     }
   }
 
+  getUser(): User {
+    if (this.isLoggedIn) {
+      const localUser = JSON.parse(localStorage.getItem('user'));
+      if (localUser !== null) {
+        return localUser as User;
+      }
+    } else {
+      this.snackbar.open('Login to upload new post', 'Dismiss', {
+        duration: 1000
+      });
+      return null;
+    }
+  }
+
   async googleSignIn() {
     const provider = new auth.GoogleAuthProvider();
-    const credentials = await this.afAuth.auth.signInWithPopup(provider);
+    const credentials = await this.afAuth.signInWithPopup(provider);
     return this.updateUserData(credentials.user);
   }
 
   async signout() {
     localStorage.clear();
-    await this.afAuth.auth.signOut();
+    await this.afAuth.signOut();
     return this.router.navigate(['/']);
   }
 
   async signInWithEmail(email, pass) {
     try {
-      const credentials = await this.afAuth.auth.signInWithEmailAndPassword(email, pass);
+      const credentials = await this.afAuth.signInWithEmailAndPassword(email, pass);
 
       return this.updateUserData(credentials.user);
     } catch (e) {
@@ -145,6 +143,18 @@ export class AuthService {
       alert(e.message);
       return of(e);
     }
+  }
+
+  async signup(email: string, pass: string) {
+    return this.afAuth.createUserWithEmailAndPassword(email, pass);
+  }
+
+  async deleteAccount() {
+    const currentUser = this.getUser();
+    await this.afs.collection('Users').doc(currentUser.uid).delete();
+    // await this.afAuth.cu.currentUser.delete();
+    await this.router.navigate(['']);
+    console.log('User Deleted');
   }
 
   private updateUserData(user) {
@@ -156,17 +166,5 @@ export class AuthService {
     //   photoURL
     // };
     return userRef.get();
-  }
-
-  async signup(email: string, pass: string) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
-  }
-
-  async deleteAccount() {
-    const currentUser = this.getUser();
-    await this.afs.collection('Users').doc(currentUser.uid).delete();
-    await this.afAuth.auth.currentUser.delete();
-    await this.router.navigate(['']);
-    console.log('User Deleted');
   }
 }

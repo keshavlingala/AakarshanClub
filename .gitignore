@@ -1,7 +1,7 @@
 .idea
 dist
 node_modules
-src/environments
+src/environments/firebase.environment.ts
 
 .firebase/
 .firebaserc

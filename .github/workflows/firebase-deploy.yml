@@ -14,7 +14,6 @@ jobs:
           node-version: 12
       - run: npm install
       - run: npm run build:prod
-      - run: firebase target:apply hosting aakarshankmit aakarshankmit
 #     Installing Firebase
       - run: curl -sL https://firebase.tools | bash
 #     Customized Firebase Deploy with multiple domains

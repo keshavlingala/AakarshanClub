@@ -28,8 +28,8 @@ jobs:
 #     Installing Firebase
       - run: npm i -g firebase-tools
 #     Customized Firebase Deploy with multiple domains
+      - run: firebase use --alias aakarshankmit --token ${{ secrets.FIREBASE_TOKEN }}
       - run: firebase target:apply hosting aakarshankmit aakarshankmit --token ${{ secrets.FIREBASE_TOKEN }}
       - run: firebase target:apply hosting aakarshan aakarshan --token ${{ secrets.FIREBASE_TOKEN }}
       - run: firebase target:apply hosting artclub artclub --token ${{ secrets.FIREBASE_TOKEN }}
-      - run: firebase use --alias aakarshankmit --token ${{ secrets.FIREBASE_TOKEN }}
       - run: firebasse deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }}

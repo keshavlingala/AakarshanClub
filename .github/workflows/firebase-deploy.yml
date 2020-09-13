@@ -14,8 +14,12 @@ jobs:
           node-version: 12
       - run: npm install
       - run: npm run build:prod
-      - uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting --project aakarshankmit
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - run: firebase target:apply hosting aakarshankmit aakarshankmit
+#     Installing Firebase
+      - run: curl -sL https://firebase.tools | bash
+#     Customized Firebase Deploy with multiple domains
+      - run: firebase target:apply hosting aakarshankmit aakarshankmit --token ${{ secrets.FIREBASE_TOKEN }}
+      - run: firebase target:apply hosting aakarshan aakarshan --token ${{ secrets.FIREBASE_TOKEN }}
+      - run: firebase target:apply hosting artclub artclub --token ${{ secrets.FIREBASE_TOKEN }}
+      - run: firebase use --alias aakarshankmit --token ${{ secrets.FIREBASE_TOKEN }}
+      - run: firebasse deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }}

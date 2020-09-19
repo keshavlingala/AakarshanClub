@@ -25,6 +25,8 @@ jobs:
           node-version: 12
       - run: npm install
       - run: npm run build:prod
+        env:
+          FIREBASE_API_KEY: ${{secrets.FIREBASE_API_KEY}}
 #     Installing Firebase
       - run: npm i -g firebase-tools
 #     Customized Firebase Deploy with multiple domains

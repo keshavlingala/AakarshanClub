@@ -1,11 +1,12 @@
 <div class="container">
   <div id="message">
     <img class="col-sm-6" src="/assets/404.jpg" alt="">
-    <h2>404 User Not Found</h2>
-    <h1>The User Your trying to view is either Not Registered or is Deleted</h1>
+    <h2>404 {{isProfile ? 'User' : 'Page'}} Not Found</h2>
+    <h1>The {{isProfile ? 'User' : 'Page'}} Your trying to view {{isProfile ? 'is either Not Registered\n' +
+      '      or is Deleted' : 'is not availble'}}</h1>
   </div>
-<!--  <div class="row justify-content-center mt-0">-->
-<!--    -->
-<!--  </div>-->
+  <!--  <div class="row justify-content-center mt-0">-->
+  <!--    -->
+  <!--  </div>-->
 
 </div>

@@ -29,12 +29,6 @@ export class MessagingService {
 
   }
 
-  /**
-   * update token in firebase database
-   *
-   * @param userId userId as a key
-   * @param token token as a value
-   */
   async updateToken(userId, token) {
     // we can change this function to request our backend service
     if (this.authService.isLoggedIn) {
@@ -58,11 +52,6 @@ export class MessagingService {
     console.log('Notifications Token Updated');
   }
 
-  /**
-   * request permission for notification from firebase cloud messaging
-   *
-   * @param userId userId
-   */
   async requestPermission(userId) {
     console.log('Requested');
     this.angularFireMessaging.requestToken.subscribe(
@@ -79,9 +68,6 @@ export class MessagingService {
 
   }
 
-  /**
-   * hook method when new notification received in foreground
-   */
   receiveMessage() {
     this.angularFireMessaging.messages.subscribe(
       (payload) => {

@@ -46,7 +46,9 @@ export class PostFullComponent implements OnInit {
     this.afs
       .collection<Comment>('Comments', ref => ref.where('pid', '==', this.id))
       .get()
-      .subscribe(comments => this.comments = comments);
+      .subscribe(comments => {
+        this.comments = comments.docs.map(doc => doc.data());
+      });
     //   .snapshotChanges().subscribe(docs => {
     //   this.comments = docs.map(doc => {
     //     console.log(doc);

@@ -61,10 +61,10 @@ export class PostService {
   }
 
   thumbUp(post: Post) {
-
     this.afs.collection('Posts').doc(post.pid).update({
       likes: firestore.FieldValue.increment(1)
     });
+    post.likes++;
   }
 
   sharePost(data: { type: 'post' | 'profile', id: string, name: string, url: string }) {

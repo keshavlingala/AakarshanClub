@@ -47,7 +47,7 @@ export class PostDetailComponent implements OnInit {
       .snapshotChanges().subscribe(snap => {
       this.comments = snap.map(c => {
         return {
-          id: c.payload.doc.id,
+          // id: c.payload.doc.id,
           ...c.payload.doc.data()
         };
       });
